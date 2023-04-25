@@ -1,0 +1,29 @@
+.wrapper {
+    --primary-orange: #ffa500;
+    --dark-orange: #ff8c00;
+
+    min-width: 100px;
+    height: 40px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+
+    + .wrapper {
+        margin-left: 8px;
+    }
+}
+
+.primary {
+    background-color: var(--primary-orange);
+    border-radius: 10px;
+
+    // background-color: red;
+}
+
+.outline {
+    background-color: #fff;
+    color: #333;
+    border-color: var(--dark-orange);
+}

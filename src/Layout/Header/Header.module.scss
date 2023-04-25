@@ -1,0 +1,101 @@
+.header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 120px;
+    border-bottom: 1px solid rgba(22, 24, 35, 0.3);
+}
+
+// logo
+
+.logo {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-logo {
+    font-size: 8rem;
+    color: #333;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.text-logo {
+    font-weight: 600;
+    font-size: 4.5rem;
+    color: #333;
+    cursor: pointer;
+}
+// ---------------------------------------
+
+// search
+.search {
+    flex: 3;
+    // background-color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper-search {
+    width: 700px;
+    height: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #333;
+    background-color: rgba(22, 24, 35, 0.3);
+
+    // &.icon-search {
+    //     // font-size: 10px;
+    //     color: red;
+    //     background-color: #333;
+    // }
+}
+
+.search-product {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: none;
+    padding-left: 15px;
+    color: #333;
+    // background-color: rgba(22, 24, 35, 0.3);
+
+    // border-radius: 10px;
+}
+
+.icon-search {
+    font-size: 30px;
+    position: absolute;
+    border-radius: 10px;
+    right: 5px;
+    padding: 6px 20px;
+    background-color: orange;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+// account
+
+.account {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-options {
+    font-size: 2.2rem;
+    padding: 4px 8px;
+    // background-color: orange;
+    cursor: pointer;
+}

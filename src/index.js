@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import GobalStyles from './components/GobalStyles';
+import GlobalStyles from './components/GlobalStyles/GlobalStyles';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <GobalStyles>
+    <GlobalStyles>
       <App />
-    </GobalStyles>
+    </GlobalStyles>
   </React.StrictMode>
 );
 
