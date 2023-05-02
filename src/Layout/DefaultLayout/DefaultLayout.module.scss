@@ -1,0 +1,21 @@
+.wrapper {
+    margin-top: 150px;
+    position: relative;
+}
+
+.container {
+    margin-top: 25px;
+    display: flex;
+}
+
+.sidebar-container {
+    flex: 1;
+    background-color: red;
+    margin: 0 25px;
+}
+
+.content {
+    flex: 3;
+    // background-color: violet;
+    margin-right: 100px;
+}

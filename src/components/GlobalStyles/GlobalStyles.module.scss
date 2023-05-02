@@ -22,6 +22,8 @@ body {
     line-height: 1.5;
     text-rendering: optimizeSpeed;
     color: var(--text-color);
+    height: 2000px;
+    overflow-y: overlay;
 }
 
 button,
