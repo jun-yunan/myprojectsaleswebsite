@@ -1,6 +1,13 @@
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import { useEffect, useState } from 'react';
+import { faDongSign } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// components
+import PreviewProduct from '~/components/PreviewProduct/PreviewProduct';
+// import Banner from '~/components/Banner/Banner';
+import SimpleSlider from '~/components/SimpleSlider/SimpleSlider';
 
 const cx = classNames.bind(styles);
 
@@ -16,26 +23,31 @@ function Home() {
     }, []);
 
     if (courses && courses.data) {
-        // console.log(courses.data.image);
+        console.log(courses);
     }
 
     return (
         <div className={cx('wrapper')}>
             {/* <h2>Home Page</h2> */}
-            <div className={cx('banner')}>Banner</div>
+            <div className={cx('banner')}>
+                {/* <Banner /> */}
+                <SimpleSlider />
+            </div>
             <div className={cx('product')}>
-                {courses && courses.data && (
-                    <div>
-                        <ul>
-                            <li>{courses.data.nameProduct}</li>
-                            <li>{courses.data.description}</li>
-                            <li>{courses.data.price}</li>
-                            <li>
-                                <img src={courses.data.image} alt="" />
-                            </li>
-                        </ul>
-                    </div>
-                )}
+                <div className={cx('wrapper-product')}>
+                    {courses &&
+                        courses.data &&
+                        courses.data.map((product, index) => (
+                            <PreviewProduct
+                                key={index}
+                                nameProduct={product.nameProduct}
+                                image={product.image}
+                                price={product.price}
+                            >
+                                <FontAwesomeIcon icon={faDongSign} />
+                            </PreviewProduct>
+                        ))}
+                </div>
             </div>
         </div>
     );

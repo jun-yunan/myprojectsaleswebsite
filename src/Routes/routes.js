@@ -6,11 +6,13 @@ import Home from '~/Pages/Home/Home';
 import Profile from '~/Pages/Profile/Profile';
 import Upload from '~/Pages/Upload/Upload';
 import Search from '~/Pages/Search/Search';
+import Products from '~/Pages/Products/Products';
 
 // Public routes
 const publicRoutes = [
     { path: '/', component: Home },
     // { path: '/following', component: Following },
+    { path: '/products', component: Products },
     { path: '/profile', component: Profile },
     { path: '/upload', component: Upload, layout: HeaderOnly },
     { path: '/search', component: Search, layout: null },
