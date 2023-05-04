@@ -1,21 +1,26 @@
 // library
-import classNames from "classnames/bind";
+import classNames from 'classnames/bind';
 // import Tippy from "@tippyjs/react";
-import TippyHeadless from "@tippyjs/react/headless";
+import TippyHeadless from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/dist/svg-arrow.css';
 
 // font icon
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBagShopping, faEllipsisVertical, faMagnifyingGlass, faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faBagShopping,
+    faEllipsisVertical,
+    faMagnifyingGlass,
+    faRightFromBracket,
+    faUser,
+} from '@fortawesome/free-solid-svg-icons';
 
 // component
-import styles from './Header.module.scss'
-import Button from "~/components/Button/Button";
-import { Link } from "react-router-dom";
+import styles from './Header.module.scss';
+import Button from '~/components/Button/Button';
+import { Link } from 'react-router-dom';
 
-
-const cx = classNames.bind(styles)
+const cx = classNames.bind(styles);
 
 const menuList = [
     {
@@ -24,15 +29,14 @@ const menuList = [
     },
     {
         icon: <FontAwesomeIcon icon={faRightFromBracket} />,
-        title: 'Đăng xuất'
-    }
-]
+        title: 'Đăng xuất',
+    },
+];
 
 function Header() {
-
     const PreviewMenuOption = (props) => {
         return (
-            <div className={cx('menu-item')} tabIndex='-1' {...props}>
+            <div className={cx('menu-item')} tabIndex="-1" {...props}>
                 {menuList.map((item, index) => (
                     <button key={index} className={cx('item-btn')}>
                         <div className={cx('icon')}>{item.icon}</div>
@@ -40,14 +44,14 @@ function Header() {
                     </button>
                 ))}
             </div>
-        )
-    }
+        );
+    };
 
-    const currentLogin = false
+    const currentLogin = false;
     return (
         <header className={cx('header')}>
             {/* logo */}
-            <Link to='/' className={cx('logo')}>
+            <Link to="/" className={cx('logo')}>
                 <FontAwesomeIcon className={cx('icon-logo')} icon={faBagShopping} />
                 <p className={cx('text-logo')}>Shopping</p>
             </Link>
@@ -63,9 +67,7 @@ function Header() {
             {/* account */}
             <div className={cx('account')}>
                 {currentLogin ? (
-                    <>
-                        {/* current login true */}
-                    </>
+                    <>{/* current login true */}</>
                 ) : (
                     <>
                         {/* current login false */}
@@ -80,7 +82,7 @@ function Header() {
                             render={PreviewMenuOption}
                         >
                             <div className={cx('icon-options')}>
-                                <FontAwesomeIcon icon={faEllipsisVertical} />
+                                <FontAwesomeIcon icon={faEllipsisVertical} className={cx('icon')} />
                             </div>
                         </TippyHeadless>
                     </>

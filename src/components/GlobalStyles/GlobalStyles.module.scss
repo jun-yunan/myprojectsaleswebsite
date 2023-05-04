@@ -3,7 +3,7 @@
 
 :root {
     --text-color: #444;
-    --box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.2);
+    --box-shadow: 3px 3px 4px rgba(22, 24, 35, 0.3);
     --primary: #fe2e55;
 }
 
@@ -24,7 +24,6 @@ body {
     line-height: 1.5;
     text-rendering: optimizeSpeed;
     color: var(--text-color);
-    height: 2000px;
     overflow-y: overlay;
 }
 

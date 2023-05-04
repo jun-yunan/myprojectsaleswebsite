@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import * as productServices from '~/services/productService';
-import PreviewProduct from '~/components/PreviewProduct/PreviewProduct';
 import { faDongSign } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
 import styles from './Products.module.scss';
+
+// components
+import PreviewProduct from '~/components/PreviewProduct/PreviewProduct';
+import SimpleSlider from '~/components/SimpleSlider/SimpleSlider';
+import Category from '~/components/Category/Category';
 
 const cx = classNames.bind(styles);
 
@@ -31,18 +35,26 @@ function Products() {
 
     return (
         <div className={cx('wrapper')}>
-            {products &&
-                products.data &&
-                products.data.map((product, index) => (
-                    <PreviewProduct
-                        key={index}
-                        nameProduct={product.nameProduct}
-                        image={product.image}
-                        price={product.price}
-                    >
-                        <FontAwesomeIcon icon={faDongSign} />
-                    </PreviewProduct>
-                ))}
+            <div className={cx('banner')}>
+                <SimpleSlider />
+            </div>
+            <div className={cx('category')}>
+                <Category />
+            </div>
+            <div className={cx('ui-products')}>
+                {products &&
+                    products.data &&
+                    products.data.map((product, index) => (
+                        <PreviewProduct
+                            key={index}
+                            nameProduct={product.nameProduct}
+                            image={product.image}
+                            price={product.price}
+                        >
+                            <FontAwesomeIcon icon={faDongSign} />
+                        </PreviewProduct>
+                    ))}
+            </div>
         </div>
     );
 }

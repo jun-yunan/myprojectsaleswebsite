@@ -22,16 +22,18 @@
 
 .icon-logo {
     font-size: 8rem;
-    color: #333;
+    color: var(--primary);
     margin-right: 15px;
     cursor: pointer;
+    text-shadow: 3px 3px 4px rgba(22, 24, 35, 0.3);
 }
 
 .text-logo {
     font-weight: 600;
     font-size: 4.5rem;
-    color: #333;
+    color: var(--primary);
     cursor: pointer;
+    text-shadow: 3px 3px 4px rgba(22, 24, 35, 0.3);
 }
 // ---------------------------------------
 
@@ -52,14 +54,19 @@
     align-items: center;
     border-radius: 10px;
     overflow: hidden;
-    border: 1px solid #333;
+    border: 2px solid #fe2e55;
     background-color: rgba(22, 24, 35, 0.3);
+    box-shadow: 3px 3px 4px rgba(22, 24, 35, 0.3);
 
     // &.icon-search {
     //     // font-size: 10px;
     //     color: red;
     //     background-color: #333;
     // }
+    &:hover {
+        transition: 0.5s ease-in-out;
+        transform: scale(1.05);
+    }
 }
 
 .search-product {
@@ -68,7 +75,7 @@
     outline: none;
     border: none;
     padding-left: 15px;
-    color: #333;
+    color: #444;
     // background-color: rgba(22, 24, 35, 0.3);
 
     // border-radius: 10px;
@@ -80,11 +87,14 @@
     border-radius: 10px;
     right: 5px;
     padding: 6px 20px;
-    background-color: orange;
+    background-color: var(--primary);
+    box-shadow: 3px 3px 4px rgba(22, 24, 35, 0.3);
     cursor: pointer;
 
     &:hover {
         opacity: 0.7;
+        transition: 0.5s ease-in-out;
+        transform: scale(1.05);
     }
 }
 
@@ -98,10 +108,21 @@
 }
 
 .icon-options {
-    font-size: 2.2rem;
     padding: 4px 8px;
     // background-color: orange;
     cursor: pointer;
+
+    .icon {
+        font-size: 2.2rem;
+        color: #fe2e55;
+        text-shadow: 3px 3px 4px rgba(22, 24, 35, 0.3);
+    }
+
+    &:hover {
+        opacity: 0.7;
+        transition: 0.5s ease-in-out;
+        transform: scale(1.2);
+    }
 }
 
 // option menu

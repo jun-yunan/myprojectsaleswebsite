@@ -9,9 +9,16 @@
     border-radius: 10px;
     border: 2px solid transparent;
     cursor: pointer;
+    box-shadow: 3px 3px 4px rgba(22, 24, 35, 0.3);
 
     + .wrapper {
         margin-left: 8px;
+    }
+
+    &:hover {
+        opacity: 0.7;
+        transition: 0.5s ease-in-out;
+        transform: scale(1.1);
     }
 }
 

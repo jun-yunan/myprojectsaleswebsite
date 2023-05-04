@@ -1,4 +1,18 @@
 .wrapper {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 1200px;
+}
+
+.banner {
+    margin-bottom: 50px;
+}
+
+.ui-products {
+    display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    // background-color: aqua;
 }

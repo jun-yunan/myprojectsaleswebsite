@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PreviewProduct from '~/components/PreviewProduct/PreviewProduct';
 // import Banner from '~/components/Banner/Banner';
 import SimpleSlider from '~/components/SimpleSlider/SimpleSlider';
+import Category from '~/components/Category/Category';
 
 const cx = classNames.bind(styles);
 
@@ -33,6 +34,11 @@ function Home() {
                 {/* <Banner /> */}
                 <SimpleSlider />
             </div>
+
+            <div className={cx('category')}>
+                <Category />
+            </div>
+
             <div className={cx('product')}>
                 <div className={cx('wrapper-product')}>
                     {courses &&
