@@ -29,7 +29,7 @@ function Products() {
         fetchApi();
     }, [queryTypeProduct]);
 
-    if (products) {
+    if (products && products.data) {
         console.log(products.data);
     }
 
@@ -44,12 +44,14 @@ function Products() {
             <div className={cx('ui-products')}>
                 {products &&
                     products.data &&
+                    products.data &&
                     products.data.map((product, index) => (
                         <PreviewProduct
                             key={index}
                             nameProduct={product.nameProduct}
                             image={product.image}
                             price={product.price}
+                            id={product._id}
                         >
                             <FontAwesomeIcon icon={faDongSign} />
                         </PreviewProduct>

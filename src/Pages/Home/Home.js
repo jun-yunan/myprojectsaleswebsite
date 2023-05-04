@@ -49,6 +49,7 @@ function Home() {
                                 nameProduct={product.nameProduct}
                                 image={product.image}
                                 price={product.price}
+                                id={product._id}
                             >
                                 <FontAwesomeIcon icon={faDongSign} />
                             </PreviewProduct>
