@@ -1,18 +1,26 @@
 .wrapper {
-    --primary-orange: #ffa500;
-    --dark-orange: #ff8c00;
-
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    font-family: var(--font-family);
     min-width: 100px;
-    height: 40px;
-    font-size: 1.4rem;
-    font-weight: 600;
+    padding: 9px 16px;
     border-radius: 10px;
-    border: 2px solid transparent;
+    background-color: var(--white);
     cursor: pointer;
-    box-shadow: 3px 3px 4px rgba(22, 24, 35, 0.3);
+    border: 1px solid transparent;
+    user-select: none;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 
     + .wrapper {
-        margin-left: 8px;
+        margin-left: 8px; // + bất kì element nào đứng sau
+    }
+
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.5;
     }
 
     &:hover {
@@ -23,14 +31,35 @@
 }
 
 .primary {
+    color: var(--white);
     background-color: var(--primary);
-    border-radius: 10px;
+    border-color: var(--primary);
 
-    // background-color: red;
+    &:hover {
+        border-color: var(--primary);
+
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), #fe2c55;
+    }
 }
 
 .outline {
-    background-color: #fff;
-    color: #444;
-    border-color: var(--primary);
+    color: var(--primary);
+    border-color: currentColor; // ăn theo màu bên trên
+
+    &:hover {
+        border-color: currentColor; // ăn theo màu bên trên
+
+        background-color: rgba(254, 44, 85, 0.06);
+    }
+}
+
+.cart {
+    width: 200px;
+    height: 50px;
+    color: #d70018;
+}
+
+.buy {
+    width: 150px;
+    height: 50px;
 }

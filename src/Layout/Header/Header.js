@@ -9,6 +9,7 @@ import 'tippy.js/dist/svg-arrow.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faBagShopping,
+    faCartShopping,
     faEllipsisVertical,
     faMagnifyingGlass,
     faRightFromBracket,
@@ -52,8 +53,12 @@ function Header() {
         <header className={cx('header')}>
             {/* logo */}
             <Link to="/" className={cx('logo')}>
-                <FontAwesomeIcon className={cx('icon-logo')} icon={faBagShopping} />
-                <p className={cx('text-logo')}>Shopping</p>
+                <img src={process.env.PUBLIC_URL + 'logo1_prev_ui.png'} alt="" />
+                {/* <FontAwesomeIcon className={cx('icon-logo')} icon={faBagShopping} /> */}
+                <div className={cx('title')}>
+                    <p className={cx('text-logo')}>Online Shop</p>
+                    <p className={cx('sub-text')}>Every product delivered to you.</p>
+                </div>
             </Link>
 
             {/* search */}
@@ -61,6 +66,9 @@ function Header() {
                 <div className={cx('wrapper-search')}>
                     <input className={cx('search-product')} type="text" placeholder="Tìm kiếm sản phẩm?..." />
                     <FontAwesomeIcon className={cx('icon-search')} icon={faMagnifyingGlass} />
+                </div>
+                <div className={cx('cart')}>
+                    <FontAwesomeIcon icon={faCartShopping} className={cx('icon-cart')} />
                 </div>
             </div>
 
@@ -71,8 +79,13 @@ function Header() {
                 ) : (
                     <>
                         {/* current login false */}
-                        <Button outline>Đăng Ký</Button>
-                        <Button primary>Đăng Nhập</Button>
+                        <Link to={{ pathname: '/authentication', search: '?q=sign-up' }} className={cx('link')}>
+                            <Button outline>Đăng Ký</Button>
+                        </Link>
+                        <Link to={{ pathname: '/authentication', search: '?q=sign-in' }}>
+                            <Button primary>Đăng Nhập</Button>
+                        </Link>
+
                         <TippyHeadless
                             // visible
                             offset={[0, 10]}

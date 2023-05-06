@@ -1,0 +1,56 @@
+.wrapper {
+    position: relative;
+    width: 1200px;
+    min-height: 700px;
+    background-color: #fff;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(68, 68, 68, 0.15);
+}
+
+.logo {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 0;
+    background: linear-gradient(90deg, #dd5e89, #f7bb97);
+}
+
+.body {
+    display: flex;
+    align-items: center;
+    position: absolute;
+
+    img {
+        width: 180px;
+        height: auto;
+    }
+    .text-logo {
+        font-size: 3.5rem;
+        font-weight: 600;
+        color: #fff;
+    }
+
+    .sub-text {
+        color: #fff;
+        font-size: 2rem;
+    }
+}
+
+.auth {
+    padding: 25px;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    right: 0;
+
+    h2 {
+        font-size: 3.5rem;
+        font-weight: 600;
+        color: var(--primary);
+    }
+}
