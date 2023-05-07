@@ -1,0 +1,59 @@
+.wrapper {
+    position: relative;
+    width: 1200px;
+    height: 700px;
+    background-color: #fff;
+}
+
+.sign-in {
+    display: flex;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: aqua;
+    right: 0;
+}
+
+.sign-up {
+    display: flex;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: bisque;
+    left: 0;
+}
+
+.active {
+    transform: translateX(100%);
+    background-color: red;
+    z-index: 1;
+    transition: 0.5s ease-in-out;
+}
+
+.notActive {
+    transform: translateX(0);
+    background-color: red;
+    z-index: 1;
+    transition: 0.5s ease-in-out;
+}
+
+.activeLogo {
+    transform: translateX(-100%);
+    background-color: brown;
+    transition: 0.5s ease-in-out;
+}
+
+.notActiveLogo {
+    transform: translateX(0);
+    background-color: brown;
+    transition: 0.5s ease-in-out;
+}
+
+.logo {
+    position: absolute;
+    right: 0;
+    background-color: brown;
+    color: #fff;
+    width: 50%;
+    height: 100%;
+}

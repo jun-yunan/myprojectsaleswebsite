@@ -22,6 +22,7 @@ function SignIn({ children }) {
     const handleClickSignIn = () => {
         navigate('/authentication?q=sign-in');
     };
+
     return (
         <div className={cx('wrapper')}>
             <form className={cx('form-sign')} action="/">

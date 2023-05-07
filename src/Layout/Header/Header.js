@@ -8,7 +8,6 @@ import 'tippy.js/dist/svg-arrow.css';
 // font icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faBagShopping,
     faCartShopping,
     faEllipsisVertical,
     faMagnifyingGlass,
@@ -48,6 +47,13 @@ function Header() {
         );
     };
 
+    function handleClick() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    }
+
     const currentLogin = false;
     return (
         <header className={cx('header')}>
@@ -79,10 +85,14 @@ function Header() {
                 ) : (
                     <>
                         {/* current login false */}
-                        <Link to={{ pathname: '/authentication', search: '?q=sign-up' }} className={cx('link')}>
+                        <Link
+                            to={{ pathname: '/authentication', search: '?q=sign-up' }}
+                            className={cx('link')}
+                            onClick={handleClick}
+                        >
                             <Button outline>Đăng Ký</Button>
                         </Link>
-                        <Link to={{ pathname: '/authentication', search: '?q=sign-in' }}>
+                        <Link to={{ pathname: '/authentication', search: '?q=sign-in' }} onClick={handleClick}>
                             <Button primary>Đăng Nhập</Button>
                         </Link>
 

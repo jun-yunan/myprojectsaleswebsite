@@ -3,8 +3,6 @@ import styles from './NextSignUp.module.scss';
 import {
     faArrowLeft,
     faCalendarDays,
-    faEnvelope,
-    faLock,
     faMapLocationDot,
     faPhone,
     faUser,
@@ -24,8 +22,9 @@ function NextSignUp({ children }) {
     console.log(queryAuth);
     const navigate = useNavigate();
 
-    const handleClickSignUp = () => {
-        navigate('/authentication?q=sign-up');
+    const handleClickSignUp = () => {};
+    const handleClickSignIn = () => {
+        navigate('/authentication?q=sign-in');
     };
     const handleBack = () => {
         navigate('/authentication?q=sign-up');
@@ -74,8 +73,11 @@ function NextSignUp({ children }) {
                     <label>Address</label>
                 </div>
                 <div className={cx('button')}>
-                    <button onClick={handleClickSignUp} className={cx('next-sign-up')} type="submit">
+                    <button onClick={handleClickSignUp} className={cx('sign-in')} type="submit">
                         Đăng Ký
+                    </button>
+                    <button onClick={handleClickSignIn} className={cx('sign-up')} type="submit">
+                        Đăng Nhập
                     </button>
                 </div>
                 <div className={cx('other-auth')}>

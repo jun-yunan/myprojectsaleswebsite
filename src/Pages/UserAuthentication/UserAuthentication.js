@@ -6,12 +6,15 @@ import styles from './UserAuthentication.module.scss';
 //component
 import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
+import { useState } from 'react';
 const cx = classNames.bind(styles);
 
 function Login() {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const queryAuth = searchParams.get('q');
+
+    const [isActive, setIsActive] = useState(false);
 
     console.log(queryAuth);
 
@@ -27,7 +30,7 @@ function Login() {
                 </div>
             </div>
             <div className={cx('auth')}>
-                {queryAuth === 'sign-in' ? <SignIn>Đăng Nhập</SignIn> : <SignUp>Đăng Ký</SignUp>}
+                {queryAuth === 'sign-in' ? <SignIn signInLeft>Đăng Nhập</SignIn> : <SignUp>Đăng Ký</SignUp>}
             </div>
         </div>
     );

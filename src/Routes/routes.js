@@ -9,7 +9,7 @@ import Search from '~/Pages/Search/Search';
 import Products from '~/Pages/Products/Products';
 import ProductDetails from '~/Pages/ProductDetails/ProductDetails';
 import UserAuthentication from '~/Pages/UserAuthentication/UserAuthentication';
-import SignUp from '~/Pages/UserAuthentication/components/SignUp/SignUp';
+import Ex from '~/components/Ex/Ex';
 // Public routes
 const publicRoutes = [
     { path: '/', component: Home },
@@ -18,7 +18,7 @@ const publicRoutes = [
     { path: '/products', component: Products },
     { path: '/product-details', component: ProductDetails },
     { path: '/authentication', component: UserAuthentication },
-    { path: '/authentication/sign-up', component: SignUp },
+    { path: '/ex', component: Ex },
     { path: '/profile', component: Profile },
     { path: '/upload', component: Upload, layout: HeaderOnly },
     { path: '/search', component: Search, layout: null },
