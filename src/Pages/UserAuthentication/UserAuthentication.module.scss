@@ -19,6 +19,48 @@
     height: 100%;
     left: 0;
     background: linear-gradient(90deg, #dd5e89, #f7bb97);
+
+    .btn-auth {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        top: 50%;
+        min-width: 150px;
+        height: 50px;
+        // padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 5px rgba(68, 68, 68, 0.2);
+
+        span {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: rgba(68, 68, 68, 0.7);
+        }
+    }
+}
+
+.activeLogo {
+    transform: translateX(100%);
+    z-index: 1;
+    transition: 0.5s ease-in-out;
+}
+
+.notActiveLogo {
+    transform: translateX(0);
+    z-index: 1;
+    transition: 0.5s ease-in-out;
+}
+
+.activeAuth {
+    transform: translateX(-100%);
+    transition: 0.5s ease-in-out;
+}
+
+.notActiveAuth {
+    transform: translateX(0);
+    transition: 0.5s ease-in-out;
 }
 
 .logo-right {

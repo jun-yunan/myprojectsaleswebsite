@@ -17,7 +17,7 @@ function SignUp({ children }) {
     const navigate = useNavigate();
 
     const handleClickContinueSignUp = () => {
-        // navigate('/authentication?q=continue-sign-up');
+        navigate('/authentication?q=continue-sign-up');
     };
 
     const handleSubmit = () => {
@@ -29,7 +29,7 @@ function SignUp({ children }) {
             {queryAuth === 'continue-sign-up' ? (
                 <NextSignUp>Tiếp Tục Đăng Ký</NextSignUp>
             ) : (
-                <form method="POST" className={cx('form-sign')} action="/authentication?continue-sign-up">
+                <form className={cx('form-sign')}>
                     <h2 className={cx('title')}>{children}</h2>
                     <div className={cx('username', 'container')}>
                         <FontAwesomeIcon className={cx('icon')} icon={faUser} />
@@ -64,7 +64,7 @@ function SignUp({ children }) {
                     </button> */}
                         <button
                             onClick={handleClickContinueSignUp}
-                            onSubmit={handleSubmit}
+                            // onSubmit={handleSubmit}
                             className={cx('next-sign-up')}
                             type="submit"
                         >

@@ -45,9 +45,9 @@ function SignIn({ children }) {
                     >
                         Đăng Nhập
                     </button>
-                    <button onClick={handleClickSignUp} className={cx('sign-up')} type="submit">
+                    {/* <button onClick={handleClickSignUp} className={cx('sign-up')} type="submit">
                         Đăng Ký
-                    </button>
+                    </button> */}
                 </div>
                 <div className={cx('other-auth')}>
                     <Link>Quên mật khẩu?</Link>

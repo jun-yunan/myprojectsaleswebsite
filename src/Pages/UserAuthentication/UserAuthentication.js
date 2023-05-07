@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 // import { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './UserAuthentication.module.scss';
@@ -18,9 +18,13 @@ function Login() {
 
     console.log(queryAuth);
 
+    const handleClick = () => {
+        setIsActive(!isActive);
+    };
+
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('logo')}>
+            <div className={cx('logo', `${isActive ? 'activeLogo' : 'notActiveLogo'}`)}>
                 <div className={cx('body')}>
                     <img src={process.env.PUBLIC_URL + 'logo1_prev_ui.png'} alt="" />
                     <div className={cx('title')}>
@@ -28,9 +32,16 @@ function Login() {
                         <p className={cx('sub-text')}>Every product delivered to you.</p>
                     </div>
                 </div>
+                <Link
+                    onClick={handleClick}
+                    className={cx('btn-auth')}
+                    to={`${queryAuth === 'sign-in' ? '/authentication?q=sign-up' : '/authentication?q=sign-in'}`}
+                >
+                    <span>{queryAuth === 'sign-up' ? 'Đăng Nhập' : 'Đăng Ký'}</span>
+                </Link>
             </div>
-            <div className={cx('auth')}>
-                {queryAuth === 'sign-in' ? <SignIn signInLeft>Đăng Nhập</SignIn> : <SignUp>Đăng Ký</SignUp>}
+            <div className={cx('auth', `${isActive ? 'activeAuth' : 'notActiveAuth'}`)}>
+                {queryAuth === 'sign-in' ? <SignIn>Đăng Nhập</SignIn> : <SignUp>Đăng Ký</SignUp>}
             </div>
         </div>
     );
