@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './UserAuthentication.module.scss';
 
+// import * as usersService from '../../services/usersService';
 //component
 import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
@@ -15,12 +16,24 @@ function Login() {
     const queryAuth = searchParams.get('q');
 
     const [isActive, setIsActive] = useState(false);
+    // const [users, setUsers] = useState([]);
 
     console.log(queryAuth);
 
     const handleClick = () => {
         setIsActive(!isActive);
     };
+
+    // useEffect(() => {
+    //     const fetchApi = async () => {
+    //         const result = await usersService.getAllUser();
+    //         setUsers(result);
+    //     };
+
+    //     fetchApi();
+    // }, []);
+
+    // users ? console.log(users) : console.log('error');
 
     return (
         <div className={cx('wrapper')}>

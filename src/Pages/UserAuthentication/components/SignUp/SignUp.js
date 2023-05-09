@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './SignUp.module.scss';
 import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation, useNavigate } from 'react-router-dom';
+import * as usersService from '~/services/usersService';
 
-// import { Link } from 'react-router-dom';
+// Components
 import NextSignUp from './NextSignUp/NextSignUp';
 
 const cx = classNames.bind(styles);
@@ -13,61 +15,65 @@ function SignUp({ children }) {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const queryAuth = searchParams.get('q');
-    console.log(queryAuth);
+
+    const [formData, setFormData] = useState({});
+
     const navigate = useNavigate();
 
-    const handleClickContinueSignUp = () => {
-        navigate('/authentication?q=continue-sign-up');
-    };
+    const handleSubmit = (event) => {
+        event.preventDefault();
 
-    const handleSubmit = () => {
-        navigate('/authentication?q=continue-sign-up');
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+
+        setFormData(data);
+        const fetchApi = async () => {
+            const result = await usersService.postSignUpUser(data);
+            console.log(result);
+            result && result.status === true
+                ? alert('Đăng ký tài khoản thành công!')
+                : alert('Đăng ký tài khoản thất bại!');
+            navigate('/authentication?q=sign-in');
+        };
+        fetchApi();
     };
 
     return (
         <div className={cx('wrapper')}>
             {queryAuth === 'continue-sign-up' ? (
-                <NextSignUp>Tiếp Tục Đăng Ký</NextSignUp>
+                <NextSignUp data={formData}>Tiếp Tục Đăng Ký</NextSignUp>
             ) : (
-                <form className={cx('form-sign')}>
+                // <form method="POST" className={cx('form-sign')} action="http://localhost:3001/api/users/checkLogin">
+                <form className={cx('form-sign')} onSubmit={handleSubmit}>
                     <h2 className={cx('title')}>{children}</h2>
                     <div className={cx('username', 'container')}>
                         <FontAwesomeIcon className={cx('icon')} icon={faUser} />
-                        <input className={cx('input-username')} type="text" name="username" required />
+                        <input
+                            className={cx('input-username')}
+                            type="text"
+                            name="username"
+                            required
+                            autoComplete="username"
+                        />
                         <label>Username</label>
                     </div>
                     <div className={cx('password', 'container')}>
                         <FontAwesomeIcon className={cx('icon')} icon={faEnvelope} />
-                        <input type="email" name="email" required />
+                        <input type="email" name="email" required autoComplete="email" />
                         <label>Email</label>
                     </div>
                     <div className={cx('password', 'container')}>
                         <FontAwesomeIcon className={cx('icon')} icon={faLock} />
-                        <input type="password" name="password" required />
+                        <input type="password" name="password" required autoComplete="password" />
                         <label>Password</label>
                     </div>
                     <div className={cx('password', 'container')}>
                         <FontAwesomeIcon className={cx('icon')} icon={faLock} />
-                        <input type="password" required />
+                        <input type="password" required autoComplete="password" />
                         <label>Confirm password</label>
                     </div>
                     <div className={cx('button')}>
-                        {/* <button
-                        onClick={queryAuth === 'sign-in' ? () => {} : handleClickSignIn}
-                        className={cx('sign-in')}
-                        type="submit"
-                    >
-                        Đăng Nhập
-                    </button>
-                    <button onClick={handleClickSignUp} className={cx('sign-up')} type="submit">
-                        Đăng Ký
-                    </button> */}
-                        <button
-                            onClick={handleClickContinueSignUp}
-                            // onSubmit={handleSubmit}
-                            className={cx('next-sign-up')}
-                            type="submit"
-                        >
+                        <button className={cx('next-sign-up')} type="submit">
                             Tiếp Tục
                         </button>
                     </div>

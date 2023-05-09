@@ -3,8 +3,11 @@ import styles from './SignIn.module.scss';
 import { faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import * as usersService from '~/services/usersService';
+import { useState } from 'react';
 
-// import { Link } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
+import Cookies from 'js-cookie';
 
 const cx = classNames.bind(styles);
 
@@ -15,39 +18,64 @@ function SignIn({ children }) {
     console.log(queryAuth);
     const navigate = useNavigate();
 
-    const handleClickSignUp = () => {
-        navigate('/authentication?q=sign-up');
+    const [formData, setFormData] = useState({
+        username: '',
+        password: '',
+    });
+
+    const handleOnchange = (event) => {
+        setFormData({ ...formData, [event.target.name]: event.target.value });
     };
 
-    const handleClickSignIn = () => {
-        navigate('/authentication?q=sign-in');
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        if (!formData) {
+            console.log('Không có dữ liệu');
+        }
+        // formData && console.log(formData);
+        const fetchApi = async () => {
+            const result = await usersService.postSignInUser(formData);
+            console.log('result: ', result);
+
+            if (result.cookie) {
+                Cookies.set(result.cookie.nameCookie, result.cookie.valueCookie);
+                const cookie = Cookies.get(result.cookie.nameCookie);
+                console.log('cookie: ', cookie);
+                const decoded = jwt_decode(cookie);
+                console.log('decoded: ', decoded);
+            }
+            result.status ? navigate('/') : alert(result.message);
+        };
+
+        fetchApi();
     };
 
     return (
         <div className={cx('wrapper')}>
-            <form className={cx('form-sign')} action="/">
+            <form className={cx('form-sign')} onSubmit={handleSubmit}>
                 <h2 className={cx('title')}>{children}</h2>
                 <div className={cx('username')}>
                     <FontAwesomeIcon className={cx('icon')} icon={faUser} />
-                    <input className={cx('input-username')} type="text" name="username" required />
+                    <input
+                        className={cx('input-username')}
+                        type="text"
+                        name="username"
+                        required
+                        autoComplete="username"
+                        onChange={handleOnchange}
+                    />
                     <label>Username</label>
                 </div>
                 <div className={cx('password')}>
                     <FontAwesomeIcon className={cx('icon')} icon={faLock} />
-                    <input type="password" name="password" required />
+                    <input type="password" name="password" required autoComplete="password" onChange={handleOnchange} />
                     <label>Password</label>
                 </div>
                 <div className={cx('button')}>
-                    <button
-                        onClick={queryAuth === 'sign-in' ? () => {} : handleClickSignIn}
-                        className={cx('sign-in')}
-                        type="submit"
-                    >
+                    <button className={cx('sign-in')} type="submit">
                         Đăng Nhập
                     </button>
-                    {/* <button onClick={handleClickSignUp} className={cx('sign-up')} type="submit">
-                        Đăng Ký
-                    </button> */}
                 </div>
                 <div className={cx('other-auth')}>
                     <Link>Quên mật khẩu?</Link>

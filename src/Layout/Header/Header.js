@@ -1,52 +1,24 @@
 // library
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import jwt_decode from 'jwt-decode';
 import classNames from 'classnames/bind';
-// import Tippy from "@tippyjs/react";
 import TippyHeadless from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/dist/svg-arrow.css';
 
 // font icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faCartShopping,
-    faEllipsisVertical,
-    faMagnifyingGlass,
-    faRightFromBracket,
-    faUser,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faMagnifyingGlass, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 
 // component
 import styles from './Header.module.scss';
 import Button from '~/components/Button/Button';
-import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-const menuList = [
-    {
-        icon: <FontAwesomeIcon icon={faUser} />,
-        title: 'Quản lý tài khoản',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faRightFromBracket} />,
-        title: 'Đăng xuất',
-    },
-];
-
 function Header() {
-    const PreviewMenuOption = (props) => {
-        return (
-            <div className={cx('menu-item')} tabIndex="-1" {...props}>
-                {menuList.map((item, index) => (
-                    <button key={index} className={cx('item-btn')}>
-                        <div className={cx('icon')}>{item.icon}</div>
-                        <p className={cx('title')}>{item.title}</p>
-                    </button>
-                ))}
-            </div>
-        );
-    };
-
     function handleClick() {
         window.scrollTo({
             top: 0,
@@ -54,7 +26,44 @@ function Header() {
         });
     }
 
-    const currentLogin = false;
+    const [currentLogin, setCurrentLogin] = useState(false);
+    const [decode, setDecode] = useState('');
+    const cookie = Cookies.get('token');
+    console.log(cookie);
+
+    useEffect(() => {
+        if (cookie) {
+            setCurrentLogin(true);
+            const decoded = jwt_decode(cookie);
+            setDecode(decoded);
+            console.log(decoded);
+        } else {
+            setCurrentLogin(false);
+            console.log('Token không tồn tại');
+        }
+    }, [cookie]);
+
+    const handleLogOut = () => {
+        Cookies.remove('token');
+        setCurrentLogin(false);
+    };
+
+    const PreviewMenuOption = (props) => {
+        return (
+            <div className={cx('menu')} tabIndex="-1" {...props}>
+                <div className={cx('arrow')}></div>
+                <div className={cx('item')}>
+                    <FontAwesomeIcon icon={faUser} className={cx('icon')} />
+                    <p className={cx('title')}>Quản lý tài khoản</p>
+                </div>
+                <div className={cx('item')} onClick={handleLogOut}>
+                    <FontAwesomeIcon icon={faRightFromBracket} className={cx('icon')} />
+                    <p className={cx('title')}>Đăng xuất</p>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <header className={cx('header')}>
             {/* logo */}
@@ -81,7 +90,12 @@ function Header() {
             {/* account */}
             <div className={cx('account')}>
                 {currentLogin ? (
-                    <>{/* current login true */}</>
+                    <TippyHeadless offset={[0, 0]} placement="bottom" interactive render={PreviewMenuOption}>
+                        <div className={cx('wrapper-icon')}>
+                            <FontAwesomeIcon icon={faUser} className={cx('icon')} />
+                            <p className={cx('title')}>{decode.username}</p>
+                        </div>
+                    </TippyHeadless>
                 ) : (
                     <>
                         {/* current login false */}
@@ -96,7 +110,7 @@ function Header() {
                             <Button primary>Đăng Nhập</Button>
                         </Link>
 
-                        <TippyHeadless
+                        {/* <TippyHeadless
                             // visible
                             offset={[0, 10]}
                             content="menu"
@@ -107,7 +121,7 @@ function Header() {
                             <div className={cx('icon-options')}>
                                 <FontAwesomeIcon icon={faEllipsisVertical} className={cx('icon')} />
                             </div>
-                        </TippyHeadless>
+                        </TippyHeadless> */}
                     </>
                 )}
             </div>

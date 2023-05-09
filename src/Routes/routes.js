@@ -20,8 +20,10 @@ const publicRoutes = [
     { path: '/authentication', component: UserAuthentication },
     { path: '/ex', component: Ex },
     { path: '/profile', component: Profile },
+    { path: '/profile/users', component: Profile },
     { path: '/upload', component: Upload, layout: HeaderOnly },
     { path: '/search', component: Search, layout: null },
+    // { path: '/users', component: Search, layout: null },
 ];
 
 const privateRoutes = [];
