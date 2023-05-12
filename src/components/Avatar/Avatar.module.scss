@@ -1,0 +1,39 @@
+.avatar-wrapper {
+    position: relative;
+    // background-color: #fff;
+}
+
+.avatar {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+}
+
+.overlay {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .button {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0;
+        width: 130px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        color: rgba(68, 68, 68, 0.8);
+
+        // width: 100%;
+        // padding: 3px;
+        background-color: #fff;
+        font-size: 1.5rem;
+        font-weight: 600;
+        z-index: 20;
+    }
+
+    .image-upload {
+    }
+}

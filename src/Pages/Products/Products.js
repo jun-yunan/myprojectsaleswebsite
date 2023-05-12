@@ -29,9 +29,9 @@ function Products() {
         fetchApi();
     }, [queryTypeProduct]);
 
-    if (products && products.data) {
-        console.log(products.data);
-    }
+    // if (products && products.data) {
+    //     console.log(products.data);
+    // }
 
     return (
         <div className={cx('wrapper')}>

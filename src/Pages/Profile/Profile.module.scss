@@ -1,0 +1,197 @@
+.wrapper {
+    position: relative;
+    display: flex;
+    width: 1200px;
+    height: 700px;
+    background-color: #fff;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(22, 24, 35, 0.1);
+    overflow: hidden;
+}
+
+.view-user {
+    flex: 1;
+    // background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(22, 24, 35, 0.2);
+}
+
+.user {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, #dd5e89, #f7bb97);
+
+    .avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width: 130px;
+        height: 130px;
+        overflow: hidden;
+        border: 3px solid #fff;
+        margin-right: 8px;
+        box-shadow: 0 0 8px rgba(22, 24, 35, 0.2);
+        // img {
+        //     width: 100px;
+        //     max-height: 100px;
+        //     object-fit: cover;
+        // }
+    }
+
+    p {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #fff;
+    }
+}
+
+.options {
+    padding: 25px;
+    flex: 3;
+    background-color: #fff;
+
+    h2 {
+        color: rgba(68, 68, 68, 0.8);
+    }
+
+    ul {
+        margin-top: 25px;
+        li {
+            font-size: 1.8rem;
+            margin: 5px 0;
+            color: rgba(68, 68, 68, 0.8);
+            font-weight: 500;
+        }
+    }
+}
+
+.wrapper-info-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: center;
+    padding: 25px;
+    flex: 2;
+    // background-color: antiquewhite;
+
+    .title {
+        width: 100%;
+        border-bottom: 1px solid rgba(68, 68, 68, 0.2);
+        h2 {
+            font-size: 3rem;
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+    }
+}
+
+.info-user {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    margin: 15px 0;
+    border-bottom: 3px solid rgba(68, 68, 68, 0.8);
+    width: 100%;
+
+    &:focus-within {
+        border-bottom-color: var(--primary);
+        color: var(--primary);
+        transition: all 0.3s ease-in-out;
+
+        .icon {
+            color: var(--primary);
+            transition: all 0.3s ease-in-out;
+        }
+
+        input {
+            color: var(--primary);
+            transition: all 0.3s ease-in-out;
+        }
+
+        label {
+            color: var(--primary);
+            transition: all 0.3s ease-in-out;
+        }
+    }
+
+    .icon {
+        margin-left: 5px;
+        font-size: 2.2rem;
+        color: rgba(68, 68, 68, 0.8);
+    }
+
+    input {
+        flex: 1;
+        font-weight: 600;
+        font-size: 1.6rem;
+        color: rgba(68, 68, 68, 0.8);
+        // background-color: #dd5e89;
+        min-width: 50%;
+        padding: 15px;
+
+        &[type='date'] {
+            appearance: none;
+            -webkit-appearance: none;
+        }
+    }
+
+    input[type='date']::-webkit-calendar-picker-indicator {
+        display: none;
+    }
+
+    select {
+        align-self: center;
+        // margin: 15px 0;
+        margin-top: 15px;
+        width: 100%;
+        padding: 5px;
+        font-size: 1.6rem;
+        outline: 2px solid transparent;
+        color: rgba(68, 68, 68, 0.7);
+        font-weight: 550;
+        border: none;
+    }
+
+    label {
+        margin-right: 5px;
+        font-weight: 600;
+        font-size: 1.8rem;
+        color: rgba(68, 68, 68, 0.8);
+    }
+}
+
+.btn-submit {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    padding: 15px;
+    background-color: var(--primary);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(68, 68, 68, 0.4);
+
+    &:hover {
+        opacity: 0.8;
+        transition: 0.5s ease-in-out;
+        transform: scale(1.02);
+    }
+
+    button {
+        background-color: transparent;
+        color: #fff;
+        font-size: 2rem;
+        font-weight: 600;
+    }
+}

@@ -1,14 +1,16 @@
-import classNames from 'classnames/bind';
-import styles from './SignIn.module.scss';
+// React
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { fetchCheckLogin } from './signInSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+// FONT ICON
 import { faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import * as usersService from '~/services/usersService';
-import { useState } from 'react';
 
-import jwt_decode from 'jwt-decode';
-import Cookies from 'js-cookie';
-
+// scss
+import classNames from 'classnames/bind';
+import styles from './SignIn.module.scss';
 const cx = classNames.bind(styles);
 
 function SignIn({ children }) {
@@ -16,7 +18,10 @@ function SignIn({ children }) {
     const searchParams = new URLSearchParams(location.search);
     const queryAuth = searchParams.get('q');
     console.log(queryAuth);
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const fetchCheckLoginResult = useSelector((state) => state.signIn);
 
     const [formData, setFormData] = useState({
         username: '',
@@ -27,6 +32,8 @@ function SignIn({ children }) {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
 
+    console.log(formData);
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -34,22 +41,35 @@ function SignIn({ children }) {
             console.log('Không có dữ liệu');
         }
         // formData && console.log(formData);
-        const fetchApi = async () => {
-            const result = await usersService.postSignInUser(formData);
-            console.log('result: ', result);
+        // const fetchApi = async () => {
+        //     const result = await usersService.postSignInUser(formData);
+        //     console.log('result: ', result);
 
-            if (result.cookie) {
-                Cookies.set(result.cookie.nameCookie, result.cookie.valueCookie);
-                const cookie = Cookies.get(result.cookie.nameCookie);
-                console.log('cookie: ', cookie);
-                const decoded = jwt_decode(cookie);
-                console.log('decoded: ', decoded);
-            }
-            result.status ? navigate('/') : alert(result.message);
-        };
+        //     if (result.cookie) {
+        //         Cookies.set(result.cookie.nameCookie, result.cookie.valueCookie);
+        //         const cookie = Cookies.get(result.cookie.nameCookie);
+        //         console.log('cookie: ', cookie);
+        //         const decoded = jwt_decode(cookie);
+        //         console.log('decoded: ', decoded);
+        //     }
+        //     if (result.status) {
+        //         navigate('/');
+        //     } else {
+        //         alert(result.message);
+        //     }
+        // };
 
-        fetchApi();
+        // fetchApi();
+
+        dispatch(fetchCheckLogin(formData));
     };
+    // console.log('fetchCheckLoginResult: ', fetchCheckLoginResult);
+
+    useEffect(() => {
+        if (fetchCheckLoginResult.status === 'successfully!!!' && fetchCheckLoginResult.data.status) {
+            navigate('/');
+        }
+    }, [fetchCheckLoginResult.data, fetchCheckLoginResult.status, navigate]);
 
     return (
         <div className={cx('wrapper')}>

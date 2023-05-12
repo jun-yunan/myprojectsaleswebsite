@@ -1,6 +1,8 @@
 // library
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { signInSlice } from '~/Pages/UserAuthentication/components/SignIn/signInSlice';
+import { useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 import classNames from 'classnames/bind';
@@ -19,6 +21,10 @@ import Button from '~/components/Button/Button';
 const cx = classNames.bind(styles);
 
 function Header() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    // const data = useSelector((state) => state);
+    // console.log('data: ', data);
     function handleClick() {
         window.scrollTo({
             top: 0,
@@ -29,14 +35,13 @@ function Header() {
     const [currentLogin, setCurrentLogin] = useState(false);
     const [decode, setDecode] = useState('');
     const cookie = Cookies.get('token');
-    console.log(cookie);
+    // console.log(cookie);
 
     useEffect(() => {
         if (cookie) {
             setCurrentLogin(true);
             const decoded = jwt_decode(cookie);
             setDecode(decoded);
-            console.log(decoded);
         } else {
             setCurrentLogin(false);
             console.log('Token không tồn tại');
@@ -46,6 +51,8 @@ function Header() {
     const handleLogOut = () => {
         Cookies.remove('token');
         setCurrentLogin(false);
+        dispatch(signInSlice.actions.resetInitialState());
+        navigate('/authentication?q=sign-in');
     };
 
     const PreviewMenuOption = (props) => {
@@ -54,7 +61,9 @@ function Header() {
                 <div className={cx('arrow')}></div>
                 <div className={cx('item')}>
                     <FontAwesomeIcon icon={faUser} className={cx('icon')} />
-                    <p className={cx('title')}>Quản lý tài khoản</p>
+                    <Link to={{ pathname: '/profile', search: `?q=${decode.username}` }} className={cx('title')}>
+                        Quản lý tài khoản
+                    </Link>
                 </div>
                 <div className={cx('item')} onClick={handleLogOut}>
                     <FontAwesomeIcon icon={faRightFromBracket} className={cx('icon')} />
@@ -92,7 +101,10 @@ function Header() {
                 {currentLogin ? (
                     <TippyHeadless offset={[0, 0]} placement="bottom" interactive render={PreviewMenuOption}>
                         <div className={cx('wrapper-icon')}>
-                            <FontAwesomeIcon icon={faUser} className={cx('icon')} />
+                            <div className={cx('avatar')}>
+                                <img src={process.env.PUBLIC_URL + 'photoshop.jpg'} alt="" />
+                            </div>
+                            {/* <FontAwesomeIcon icon={faUser} className={cx('icon')} /> */}
                             <p className={cx('title')}>{decode.username}</p>
                         </div>
                     </TippyHeadless>
