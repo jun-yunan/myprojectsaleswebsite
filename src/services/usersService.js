@@ -39,3 +39,12 @@ export const postSignInUser = async (data) => {
         console.log(error);
     }
 };
+
+export const UpdateInfoUser = async (data) => {
+    try {
+        const response = await httpRequest.post('/users/post/update', data);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};

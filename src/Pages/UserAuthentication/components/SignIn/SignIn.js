@@ -15,13 +15,14 @@ const cx = classNames.bind(styles);
 
 function SignIn({ children }) {
     const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const fetchCheckLoginResult = useSelector((state) => state.signIn);
+
     const searchParams = new URLSearchParams(location.search);
     const queryAuth = searchParams.get('q');
     console.log(queryAuth);
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const fetchCheckLoginResult = useSelector((state) => state.signIn);
 
     const [formData, setFormData] = useState({
         username: '',
@@ -36,40 +37,18 @@ function SignIn({ children }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
         if (!formData) {
             console.log('Không có dữ liệu');
         }
-        // formData && console.log(formData);
-        // const fetchApi = async () => {
-        //     const result = await usersService.postSignInUser(formData);
-        //     console.log('result: ', result);
-
-        //     if (result.cookie) {
-        //         Cookies.set(result.cookie.nameCookie, result.cookie.valueCookie);
-        //         const cookie = Cookies.get(result.cookie.nameCookie);
-        //         console.log('cookie: ', cookie);
-        //         const decoded = jwt_decode(cookie);
-        //         console.log('decoded: ', decoded);
-        //     }
-        //     if (result.status) {
-        //         navigate('/');
-        //     } else {
-        //         alert(result.message);
-        //     }
-        // };
-
-        // fetchApi();
-
         dispatch(fetchCheckLogin(formData));
     };
-    // console.log('fetchCheckLoginResult: ', fetchCheckLoginResult);
 
     useEffect(() => {
-        if (fetchCheckLoginResult.status === 'successfully!!!' && fetchCheckLoginResult.data.status) {
-            navigate('/');
+        if (fetchCheckLoginResult.status) {
+            fetchCheckLoginResult.data.status ? navigate('/') : alert(fetchCheckLoginResult.data.message);
         }
-    }, [fetchCheckLoginResult.data, fetchCheckLoginResult.status, navigate]);
+    }, [fetchCheckLoginResult.data.message, fetchCheckLoginResult.data.status, fetchCheckLoginResult.status, navigate]);
+    // console.log('fetchCheckLoginResult: ', fetchCheckLoginResult);
 
     return (
         <div className={cx('wrapper')}>

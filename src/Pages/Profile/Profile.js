@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { fetchUser } from './profileSlice';
 
 // font icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,6 +17,9 @@ import {
 // component
 import Avatar from '~/components/Avatar/Avatar';
 
+// action
+import { fetchUser, fetchUpdateUser } from './profileSlice';
+
 // scss
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
@@ -29,33 +31,69 @@ function Profile() {
     const queryUsername = searchParams.get('q');
 
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.signIn);
+    const user = useSelector((state) => state.getUser);
+    const imageUpload = useSelector((state) => state.getUser.image);
+    const responseFetchUpdateUser = useSelector((state) => state.getUser.responseFetchUpdateUser);
+
+    const [formData, setFormData] = useState({
+        username: '',
+        avatar: '',
+        email: '',
+        fullName: '',
+        gender: '',
+        date: '',
+        numberPhone: '',
+        address: '',
+        _id: '',
+    });
 
     useEffect(() => {
         dispatch(fetchUser(queryUsername));
-    }, [dispatch, queryUsername]);
-
-    const { username, password, avatar, email, fullName, gender, date, numberPhone, address } = user.data.getUser;
-
-    const [formData, setFormData] = useState({
-        username,
-        avatar,
-        email,
-        fullName,
-        gender,
-        date,
-        numberPhone,
-        address,
-    });
-
-    console.log(formData.fullName);
+        let fetchGetUserData = {};
+        if (user.status && user.fetchGetUser.status) {
+            const { username, avatar, email, fullName, gender, date, numberPhone, address, _id } =
+                user.fetchGetUser.data;
+            fetchGetUserData = {
+                username,
+                avatar,
+                email,
+                fullName,
+                gender,
+                date,
+                numberPhone,
+                address,
+                _id,
+            };
+            setFormData(fetchGetUserData);
+        }
+    }, [dispatch, queryUsername, user.status, user.fetchGetUser.status]);
 
     const handleChange = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
+
+    const handleSubmitForm = (event) => {
+        event.preventDefault();
+        const formUpdateUser = new FormData(event.target);
+        const formUpdateUserData = Object.fromEntries(formUpdateUser.entries());
+
+        console.log('formUpdateUserData: ', formUpdateUserData);
+
+        dispatch(fetchUpdateUser(formUpdateUserData));
+    };
+
+    useEffect(() => {
+        console.log('responseFetchUpdateUser: ', responseFetchUpdateUser);
+        if (responseFetchUpdateUser.status) {
+            responseFetchUpdateUser.data.status
+                ? alert(responseFetchUpdateUser.data.message)
+                : alert(responseFetchUpdateUser.data.message);
+        }
+    }, [responseFetchUpdateUser]);
+
     return (
         <div className={cx('wrapper')}>
-            {user && user.data && (
+            {formData && user && user.fetchGetUser && user.fetchGetUser.status && (
                 <>
                     <div className={cx('view-user')}>
                         <div className={cx('user')}>
@@ -65,7 +103,6 @@ function Profile() {
                             </div>
                             <p>{formData.username}</p>
                         </div>
-                        {/* <input type="file" /> */}
                         <div className={cx('options')}>
                             <h2>Tài khoản của tôi</h2>
                             <ul>
@@ -79,9 +116,17 @@ function Profile() {
                     <div className={cx('wrapper-info-user')}>
                         <div className={cx('title')}>
                             <h2>Hồ sơ của tôi</h2>
+                            <p>Cập nhật thông tin tài khoản</p>
                         </div>
-                        <form className={cx('info-user')}>
-                            {/* <p>{formData.username}</p> */}
+                        <form className={cx('info-user')} onSubmit={handleSubmitForm}>
+                            <input
+                                type="text"
+                                hidden
+                                name="avatar"
+                                defaultValue={imageUpload}
+                                onChange={handleChange}
+                            />
+                            <input type="text" hidden name="_id" value={formData._id} onChange={handleChange} />
                             <div className={cx('container', 'email')}>
                                 <FontAwesomeIcon className={cx('icon')} icon={faEnvelope} />
                                 <input
