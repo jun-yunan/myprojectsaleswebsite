@@ -8,62 +8,57 @@ export const fetchUser = createAsyncThunk('profileSlice/fetchUser', async (query
 
 export const fetchUpdateUser = createAsyncThunk('profileSlice/fetchUpdateUser', async (dataUser) => {
     const response = await usersService.UpdateInfoUser(dataUser);
-    console.log(response);
+    // console.log(response);
     return response;
 });
 
-export const getUserSlice = createSlice({
-    name: 'getUser',
-
+export const profileSlice = createSlice({
+    name: 'profile',
     initialState: {
-        status: false,
-        message: 'idle',
-        fetchGetUser: {},
-        responseFetchUpdateUser: {
-            status: false,
-            message: 'idle',
-            data: {},
-        },
+        fetchGetUser: { status: false, message: 'idle', response: {} },
+        fetchUpdateUser: { status: false, message: 'idle', response: {} },
+        image: '',
     },
-
     reducers: {
         uploadImage: (state, action) => {
+            state.image = action.payload;
+        },
+        resetFetchGetUser: (state, action) => {
+            state.fetchGetUser.response = {};
+        },
+        resetStatusUpdateUser: (state) => {
+            state.fetchUpdateUser.status = false;
+        },
+        restoreStateImage: (state, action) => {
             state.image = action.payload;
         },
     },
 
     extraReducers: (builder) => {
         // Get Info User
+        builder
+            .addCase(fetchUser.pending, (state) => {
+                state.fetchGetUser.message = 'Loading';
+                state.fetchGetUser.status = false;
+            })
+            .addCase(fetchUser.fulfilled, (state, action) => {
+                state.fetchGetUser.response = action.payload;
+                state.fetchGetUser.message = 'Fetch Get User Successfully!!!';
+                state.fetchGetUser.status = true;
+            })
 
-        builder.addCase(fetchUser.pending, (state, action) => {
-            state.message = 'Loading';
-        });
-        builder.addCase(fetchUser.fulfilled, (state, action) => {
-            // update state
-            // console.log('Action', action.payload);
-            state.message = 'Fetch Get User Successfully!!!';
-            state.status = true;
-            state.fetchGetUser = action.payload;
-        });
-        builder.addCase(fetchUser.rejected, (state, action) => {
-            state.message = 'Fetch Get User Fail!!!';
-            return state;
-        });
-
-        // Update Info User
-        builder.addCase(fetchUpdateUser.pending, (state, action) => {
-            state.responseFetchUpdateUser.message = 'Loading';
-        });
-        builder.addCase(fetchUpdateUser.fulfilled, (state, action) => {
-            state.responseFetchUpdateUser.status = true;
-            state.responseFetchUpdateUser.message = 'Fetch Update Info User Successfully!';
-            state.responseFetchUpdateUser.data = action.payload;
-        });
-        builder.addCase(fetchUpdateUser.rejected, (state, action) => {
-            state.responseFetchUpdateUser.message = 'Fetch Update Info User Fail!';
-        });
+            // Update Info User
+            .addCase(fetchUpdateUser.pending, (state) => {
+                state.fetchUpdateUser.message = 'Loading';
+                state.fetchUpdateUser.status = false;
+            })
+            .addCase(fetchUpdateUser.fulfilled, (state, action) => {
+                state.fetchUpdateUser.response = action.payload;
+                state.fetchUpdateUser.status = true;
+                state.fetchUpdateUser.message = 'Fetch Update Info User Successfully!';
+            });
     },
 });
 
-const getUserReducer = getUserSlice.reducer;
-export default getUserReducer;
+const profileReducer = profileSlice.reducer;
+export default profileReducer;

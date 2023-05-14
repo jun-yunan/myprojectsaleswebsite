@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInSlice } from '~/Pages/UserAuthentication/components/SignIn/signInSlice';
-import { useDispatch } from 'react-redux';
+import { profileSlice } from '~/Pages/Profile/profileSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 import classNames from 'classnames/bind';
@@ -22,9 +23,22 @@ const cx = classNames.bind(styles);
 
 function Header() {
     const dispatch = useDispatch();
+    const imageUpload = useSelector((state) => state.profileUser.image);
+
     const navigate = useNavigate();
-    // const data = useSelector((state) => state);
-    // console.log('data: ', data);
+
+    const [avatar, setAvatar] = useState('');
+
+    useEffect(() => {
+        const storedState = localStorage.getItem('reduxStateImage');
+        if (storedState) {
+            const parsedState = JSON.parse(storedState);
+            // console.log(parsedState);
+            setAvatar(imageUpload);
+            dispatch(profileSlice.actions.restoreStateImage(parsedState));
+        }
+    }, [dispatch, imageUpload]);
+
     function handleClick() {
         window.scrollTo({
             top: 0,
@@ -42,24 +56,31 @@ function Header() {
             setCurrentLogin(true);
             const decoded = jwt_decode(cookie);
             setDecode(decoded);
+            // console.log(decode);
+            // dispatch(fetchUser(decode.username));
         } else {
             setCurrentLogin(false);
             console.log('Token không tồn tại');
         }
-    }, [cookie]);
+    }, [cookie, dispatch]);
 
     const handleLogOut = () => {
         Cookies.remove('token');
         setCurrentLogin(false);
         dispatch(signInSlice.actions.resetInitialState());
+        dispatch(profileSlice.actions.resetFetchGetUser());
         navigate('/authentication?q=sign-in');
+    };
+
+    const handleClickResetState = () => {
+        dispatch(profileSlice.actions.resetStatusUpdateUser());
     };
 
     const PreviewMenuOption = (props) => {
         return (
             <div className={cx('menu')} tabIndex="-1" {...props}>
                 <div className={cx('arrow')}></div>
-                <div className={cx('item')}>
+                <div className={cx('item')} onClick={handleClickResetState}>
                     <FontAwesomeIcon icon={faUser} className={cx('icon')} />
                     <Link to={{ pathname: '/profile', search: `?q=${decode.username}` }} className={cx('title')}>
                         Quản lý tài khoản
@@ -102,7 +123,7 @@ function Header() {
                     <TippyHeadless offset={[0, 0]} placement="bottom" interactive render={PreviewMenuOption}>
                         <div className={cx('wrapper-icon')}>
                             <div className={cx('avatar')}>
-                                <img src={process.env.PUBLIC_URL + 'photoshop.jpg'} alt="" />
+                                <img src={avatar} alt="" />
                             </div>
                             {/* <FontAwesomeIcon icon={faUser} className={cx('icon')} /> */}
                             <p className={cx('title')}>{decode.username}</p>
