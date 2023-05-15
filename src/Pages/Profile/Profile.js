@@ -1,7 +1,7 @@
 // library
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 // font icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,7 +18,7 @@ import {
 import Avatar from '~/components/Avatar/Avatar';
 
 // action
-import { fetchUser, fetchUpdateUser } from './profileSlice';
+import { fetchUser, fetchUpdateUser, profileSlice } from './profileSlice';
 
 // scss
 import classNames from 'classnames/bind';
@@ -29,14 +29,14 @@ function Profile() {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const queryUsername = searchParams.get('q');
-    const dispatch = useDispatch();
 
-    // const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const getUser = useSelector((state) => state.profileUser.fetchGetUser);
     const imageUpload = useSelector((state) => state.profileUser.image);
     const updateUser = useSelector((state) => state.profileUser.fetchUpdateUser);
-    // console.log(imageUpload);
+
+    // console.log('getUser: ', getUser);
 
     const [formData, setFormData] = useState({
         username: '',
@@ -72,7 +72,7 @@ function Profile() {
                 _id,
             });
         }
-    }, [getUser.response.data, getUser.response.status, getUser.status]);
+    }, [getUser.response.status, getUser.status]);
 
     const handleChange = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -90,7 +90,12 @@ function Profile() {
     useEffect(() => {
         // console.log('updateUser: ', updateUser);
         if (updateUser.status) {
-            updateUser.response.status ? alert(updateUser.response.message) : alert(updateUser.response.message);
+            if (updateUser.response.status) {
+                alert(updateUser.response.message);
+                // dispatch(profileSlice.actions.resetStatusUpdateUser());
+            } else {
+                alert(updateUser.response.message);
+            }
         }
     }, [updateUser.response.message, updateUser.response.status, updateUser.status, queryUsername]);
 
@@ -102,7 +107,6 @@ function Profile() {
                         <div className={cx('user')}>
                             <div className={cx('avatar')}>
                                 <Avatar img={formData.avatar} />
-                                {/* <img src={account.data.avatar} alt="" /> */}
                             </div>
                             <p>{formData.username}</p>
                         </div>

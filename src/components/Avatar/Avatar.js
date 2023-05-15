@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Avatar.module.scss';
 import { profileSlice } from '~/Pages/Profile/profileSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { headerSlice } from '~/Layout/Header/headerSlice';
 
 const cx = classNames.bind(styles);
 
 const Avatar = ({ img }) => {
     const [avatarImage, setAvatarImage] = useState('');
     const dispatch = useDispatch();
-    // const imageUpload = useSelector((state) => state.profileUser.image);
-    // console.log(imageUpload);
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -24,7 +23,8 @@ const Avatar = ({ img }) => {
         const reader = new FileReader();
         reader.onloadend = () => {
             setAvatarImage(reader.result);
-            localStorage.setItem('reduxStateImage', JSON.stringify(reader.result));
+            // sessionStorage.setItem('reduxStateImage', JSON.stringify(reader.result));
+            dispatch(headerSlice.actions.getAvatarUpload(reader.result));
             dispatch(profileSlice.actions.uploadImage(reader.result));
         };
         reader.readAsDataURL(file);

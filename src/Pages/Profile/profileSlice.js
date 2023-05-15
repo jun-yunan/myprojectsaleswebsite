@@ -24,6 +24,8 @@ export const profileSlice = createSlice({
             state.image = action.payload;
         },
         resetFetchGetUser: (state, action) => {
+            state.fetchGetUser.status = false;
+            state.fetchGetUser.message = 'idle';
             state.fetchGetUser.response = {};
         },
         resetStatusUpdateUser: (state) => {
@@ -31,6 +33,9 @@ export const profileSlice = createSlice({
         },
         restoreStateImage: (state, action) => {
             state.image = action.payload;
+        },
+        resetImageUpload: (state) => {
+            state.image = '';
         },
     },
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInSlice } from '~/Pages/UserAuthentication/components/SignIn/signInSlice';
 import { profileSlice } from '~/Pages/Profile/profileSlice';
+import { fetchGetUserLogin, headerSlice } from './headerSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
@@ -23,21 +24,52 @@ const cx = classNames.bind(styles);
 
 function Header() {
     const dispatch = useDispatch();
-    const imageUpload = useSelector((state) => state.profileUser.image);
-
     const navigate = useNavigate();
 
-    const [avatar, setAvatar] = useState('');
+    // Selector
+    const getLoginUser = useSelector((state) => state.header.getUser);
+    const isUpdateInfoUser = useSelector((state) => state.profileUser.fetchUpdateUser.status);
+    const getAvatarUpload = useSelector((state) => state.header.avatar);
+    // console.log(isUpdateInfoUser);
+
+    console.log(getAvatarUpload);
+    console.log(getLoginUser);
+
+    // hook state
+    const [currentLogin, setCurrentLogin] = useState(false);
+    const [decode, setDecode] = useState('');
+
+    const cookie = Cookies.get('token');
 
     useEffect(() => {
-        const storedState = localStorage.getItem('reduxStateImage');
-        if (storedState) {
-            const parsedState = JSON.parse(storedState);
-            // console.log(parsedState);
-            setAvatar(imageUpload);
-            dispatch(profileSlice.actions.restoreStateImage(parsedState));
+        if (currentLogin) {
+            dispatch(fetchGetUserLogin(decode.username));
         }
-    }, [dispatch, imageUpload]);
+    }, [currentLogin, decode.username, dispatch, isUpdateInfoUser]);
+
+    console.log('getLoginUser: ', getLoginUser);
+
+    useEffect(() => {
+        if (cookie) {
+            setCurrentLogin(true);
+            const decoded = jwt_decode(cookie);
+            setDecode(decoded);
+        } else {
+            setCurrentLogin(false);
+            console.log('Token không tồn tại');
+        }
+    }, [cookie]);
+
+    const handleLogOut = () => {
+        Cookies.remove('token');
+        setCurrentLogin(false);
+        // sessionStorage.clear();
+        dispatch(headerSlice.actions.resetStateHeader());
+        dispatch(signInSlice.actions.resetInitialState());
+        dispatch(profileSlice.actions.resetFetchGetUser());
+        dispatch(profileSlice.actions.resetImageUpload());
+        navigate('/authentication?q=sign-in');
+    };
 
     function handleClick() {
         window.scrollTo({
@@ -46,34 +78,12 @@ function Header() {
         });
     }
 
-    const [currentLogin, setCurrentLogin] = useState(false);
-    const [decode, setDecode] = useState('');
-    const cookie = Cookies.get('token');
-    // console.log(cookie);
-
-    useEffect(() => {
-        if (cookie) {
-            setCurrentLogin(true);
-            const decoded = jwt_decode(cookie);
-            setDecode(decoded);
-            // console.log(decode);
-            // dispatch(fetchUser(decode.username));
-        } else {
-            setCurrentLogin(false);
-            console.log('Token không tồn tại');
-        }
-    }, [cookie, dispatch]);
-
-    const handleLogOut = () => {
-        Cookies.remove('token');
-        setCurrentLogin(false);
-        dispatch(signInSlice.actions.resetInitialState());
-        dispatch(profileSlice.actions.resetFetchGetUser());
-        navigate('/authentication?q=sign-in');
-    };
-
     const handleClickResetState = () => {
         dispatch(profileSlice.actions.resetStatusUpdateUser());
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
     };
 
     const PreviewMenuOption = (props) => {
@@ -122,10 +132,19 @@ function Header() {
                 {currentLogin ? (
                     <TippyHeadless offset={[0, 0]} placement="bottom" interactive render={PreviewMenuOption}>
                         <div className={cx('wrapper-icon')}>
-                            <div className={cx('avatar')}>
-                                <img src={avatar} alt="" />
-                            </div>
-                            {/* <FontAwesomeIcon icon={faUser} className={cx('icon')} /> */}
+                            {getLoginUser.status && getLoginUser.response.data.avatar ? (
+                                <div className={cx('avatar')}>
+                                    <img
+                                        src={
+                                            (getLoginUser.status && getLoginUser.response.data.avatar) || ''
+                                            // (imageUpload && isUpdateInfoUser)
+                                        }
+                                        alt=""
+                                    />
+                                </div>
+                            ) : (
+                                <FontAwesomeIcon icon={faUser} className={cx('icon')} />
+                            )}
                             <p className={cx('title')}>{decode.username}</p>
                         </div>
                     </TippyHeadless>
@@ -142,19 +161,6 @@ function Header() {
                         <Link to={{ pathname: '/authentication', search: '?q=sign-in' }} onClick={handleClick}>
                             <Button primary>Đăng Nhập</Button>
                         </Link>
-
-                        {/* <TippyHeadless
-                            // visible
-                            offset={[0, 10]}
-                            content="menu"
-                            placement="bottom-start"
-                            interactive
-                            render={PreviewMenuOption}
-                        >
-                            <div className={cx('icon-options')}>
-                                <FontAwesomeIcon icon={faEllipsisVertical} className={cx('icon')} />
-                            </div>
-                        </TippyHeadless> */}
                     </>
                 )}
             </div>

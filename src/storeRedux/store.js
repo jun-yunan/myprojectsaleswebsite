@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import profileReducer from '~/Pages/Profile/profileSlice';
 import signInReducer from '~/Pages/UserAuthentication/components/SignIn/signInSlice';
-import avatarReducer from '~/components/Avatar/avatarSlice';
+import headerReducer from '~/Layout/Header/headerSlice';
 // import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 // import persistConfig from '~/persistConfig';
 // import rootReducer from './reducer';
@@ -19,7 +19,7 @@ export const store = configureStore({
     reducer: {
         profileUser: profileReducer,
         signIn: signInReducer,
-        avatar: avatarReducer,
+        header: headerReducer,
     },
 });
 
