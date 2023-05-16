@@ -30,10 +30,13 @@ function Header() {
     const getLoginUser = useSelector((state) => state.header.getUser);
     const isUpdateInfoUser = useSelector((state) => state.profileUser.fetchUpdateUser.status);
     const getAvatarUpload = useSelector((state) => state.header.avatar);
+    // const getInfoUser = useSelector((state) => state.header.infoUser);
+
+    // getInfoUser.status && console.log('getInfoUser: ', getInfoUser);
     // console.log(isUpdateInfoUser);
 
-    console.log(getAvatarUpload);
-    console.log(getLoginUser);
+    // console.log(getAvatarUpload);
+    // console.log(getLoginUser);
 
     // hook state
     const [currentLogin, setCurrentLogin] = useState(false);
@@ -47,7 +50,17 @@ function Header() {
         }
     }, [currentLogin, decode.username, dispatch, isUpdateInfoUser]);
 
-    console.log('getLoginUser: ', getLoginUser);
+    // getLoginUser.status && console.log('getLoginUser: ', getLoginUser);
+    useEffect(() => {
+        if (getLoginUser.status) {
+            dispatch(
+                headerSlice.actions.getUserId({
+                    userId: getLoginUser.response.data._id,
+                    username: getLoginUser.response.data.username,
+                }),
+            );
+        }
+    }, [dispatch, getLoginUser.status]);
 
     useEffect(() => {
         if (cookie) {

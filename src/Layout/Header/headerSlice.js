@@ -15,6 +15,11 @@ export const headerSlice = createSlice({
             response: {},
         },
         avatar: '',
+        infoUser: {
+            status: false,
+            username: '',
+            userId: '',
+        },
     },
     reducers: {
         resetStateHeader: (state) => {
@@ -25,6 +30,12 @@ export const headerSlice = createSlice({
 
         getAvatarUpload: (state, action) => {
             state.avatar = action.payload;
+        },
+
+        getUserId: (state, action) => {
+            state.infoUser.userId = action.payload.userId;
+            state.infoUser.username = action.payload.username;
+            state.infoUser.status = true;
         },
     },
     extraReducers: (builder) => {
