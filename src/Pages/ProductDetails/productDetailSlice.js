@@ -9,7 +9,7 @@ export const fetchAddToCart = createAsyncThunk('productDetail/fetchAddToCart', a
 export const productDetailSlice = createSlice({
     name: 'productDetail',
     initialState: {
-        getProductById: {
+        addToCart: {
             status: false,
             message: 'idle',
             response: {},
@@ -23,18 +23,21 @@ export const productDetailSlice = createSlice({
         increase: (state) => {
             state.quantity = state.quantity + 1;
         },
+        resetQuantity: (state) => {
+            state.quantity = 1;
+        },
     },
     extraReducers: (builder) => {
         builder
             .addCase(fetchAddToCart.pending, (state, action) => {
-                state.getProductById.message = 'loading';
-                state.getProductById.status = false;
-                state.getProductById.response = {};
+                state.addToCart.message = 'loading';
+                state.addToCart.status = false;
+                state.addToCart.response = {};
             })
             .addCase(fetchAddToCart.fulfilled, (state, action) => {
-                state.getProductById.response = action.payload;
-                state.getProductById.message = 'Successfully';
-                state.getProductById.status = true;
+                state.addToCart.response = action.payload;
+                state.addToCart.message = 'Successfully';
+                state.addToCart.status = true;
             });
     },
 });

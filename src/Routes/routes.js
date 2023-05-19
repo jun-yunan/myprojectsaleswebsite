@@ -10,6 +10,7 @@ import Products from '~/Pages/Products/Products';
 import ProductDetails from '~/Pages/ProductDetails/ProductDetails';
 import UserAuthentication from '~/Pages/UserAuthentication/UserAuthentication';
 import Ex from '~/components/Ex/Ex';
+import Cart from '~/Pages/Cart/Cart';
 // Public routes
 const publicRoutes = [
     { path: '/', component: Home },
@@ -18,6 +19,7 @@ const publicRoutes = [
     { path: '/products', component: Products },
     { path: '/product-details', component: ProductDetails },
     { path: '/authentication', component: UserAuthentication },
+    { path: '/cart', component: Cart },
     { path: '/ex', component: Ex },
     { path: '/profile', component: Profile },
     { path: '/profile/users', component: Profile },

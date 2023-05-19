@@ -30,6 +30,7 @@ function Header() {
     const getLoginUser = useSelector((state) => state.header.getUser);
     const isUpdateInfoUser = useSelector((state) => state.profileUser.fetchUpdateUser.status);
     const getAvatarUpload = useSelector((state) => state.header.avatar);
+
     // const getInfoUser = useSelector((state) => state.header.infoUser);
 
     // getInfoUser.status && console.log('getInfoUser: ', getInfoUser);
@@ -135,9 +136,9 @@ function Header() {
                     <input className={cx('search-product')} type="text" placeholder="Tìm kiếm sản phẩm?..." />
                     <FontAwesomeIcon className={cx('icon-search')} icon={faMagnifyingGlass} />
                 </div>
-                <div className={cx('cart')}>
+                <Link to={'/cart'} className={cx('cart')}>
                     <FontAwesomeIcon icon={faCartShopping} className={cx('icon-cart')} />
-                </div>
+                </Link>
             </div>
 
             {/* account */}

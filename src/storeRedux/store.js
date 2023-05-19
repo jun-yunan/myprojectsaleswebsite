@@ -3,6 +3,7 @@ import profileReducer from '~/Pages/Profile/profileSlice';
 import signInReducer from '~/Pages/UserAuthentication/components/SignIn/signInSlice';
 import headerReducer from '~/Layout/Header/headerSlice';
 import productDetailReducer from '~/Pages/ProductDetails/productDetailSlice';
+import cartReducer from '~/Pages/Cart/cartSlice';
 // import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 // import persistConfig from '~/persistConfig';
 // import rootReducer from './reducer';
@@ -22,6 +23,7 @@ export const store = configureStore({
         signIn: signInReducer,
         header: headerReducer,
         productDetail: productDetailReducer,
+        cart: cartReducer,
     },
 });
 

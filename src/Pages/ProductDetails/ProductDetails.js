@@ -3,7 +3,15 @@ import { useLocation } from 'react-router-dom';
 import * as productServices from '~/services/productService';
 import classNames from 'classnames/bind';
 import styles from './ProductDetails.module.scss';
-import { faCartPlus, faDongSign, faHeart, faMinus, faPlus, faStar } from '@fortawesome/free-solid-svg-icons';
+import {
+    faCartPlus,
+    faCircleCheck,
+    faDongSign,
+    faHeart,
+    faMinus,
+    faPlus,
+    faStar,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // redux
@@ -21,7 +29,7 @@ function ProductDetails() {
     const searchParams = new URLSearchParams(location.search);
     const queryIdProduct = searchParams.get('id');
 
-    const resultFetch = useSelector((state) => state.productDetail.getProductById);
+    const responseFetchAddToCart = useSelector((state) => state.productDetail.addToCart);
     const getInfoUser = useSelector((state) => state.header.infoUser);
     const userId = useSelector((state) => state.header.infoUser.userId);
     const username = useSelector((state) => state.header.infoUser.username);
@@ -29,6 +37,10 @@ function ProductDetails() {
 
     // getInfoUser.status && console.log('getInfoUser: ', getInfoUser);
     const [product, setProduct] = useState({});
+    const [showNotification, setShowNotification] = useState(false);
+    // const [showMessageSuccess, setShowMessageSuccess] = useState(false);
+
+    // console.log(showMessageSuccess);
 
     const handleAddToCart = () => {
         product &&
@@ -43,9 +55,15 @@ function ProductDetails() {
                     quantity,
                 }),
             );
+        setShowNotification(true);
+
+        setTimeout(() => {
+            setShowNotification(false);
+            dispatch(productDetailSlice.actions.resetQuantity());
+        }, 2300);
     };
 
-    console.log('resultFetch: ', resultFetch);
+    console.log('responseFetchAddToCart: ', responseFetchAddToCart);
 
     useEffect(() => {
         const fetchApi = async () => {
@@ -73,6 +91,12 @@ function ProductDetails() {
         <div className={cx('wrapper')}>
             {product && product.data && (
                 <div className={cx('container')}>
+                    {showNotification && (
+                        <div className={cx('notification')}>
+                            <FontAwesomeIcon icon={faCircleCheck} className={cx('icon')} />
+                            <p>Thêm vào giỏ hàng thành công!!!</p>
+                        </div>
+                    )}
                     <div className={cx('product')}>
                         <div className={cx('image')}>
                             <p className={cx('heart')}>
