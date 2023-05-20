@@ -29,7 +29,7 @@ export const cartSlice = createSlice({
             message: 'idle',
             response: {},
         },
-        quantity: {
+        updateQuantity: {
             status: false,
             message: 'idle',
             response: {},
@@ -72,36 +72,53 @@ export const cartSlice = createSlice({
 
             //fetchHandleDecrease
             .addCase(fetchHandleDecrease.pending, (state, action) => {
-                state.quantity.status = false;
-                state.quantity.message = 'Loading';
-                state.quantity.response = {};
+                state.updateQuantity.status = false;
+                state.updateQuantity.message = 'Loading';
             })
             .addCase(fetchHandleDecrease.fulfilled, (state, action) => {
-                state.quantity.status = true;
-                state.quantity.message = 'Successfully';
-                state.quantity.response = action.payload;
+                const { productId, quantity } = action.payload;
+
+                const product = state.getProductCart.response.listProduct.find((item) => item._id === productId);
+
+                if (product) {
+                    product.quantity = quantity;
+                }
+
+                state.updateQuantity.status = true;
+                state.updateQuantity.message = 'Successfully';
+                state.updateQuantity.response = action.payload;
             })
 
             //fetchHandleIncrease
             .addCase(fetchHandleIncrease.pending, (state, action) => {
-                state.quantity.status = false;
-                state.quantity.message = 'Loading';
-                state.quantity.response = {};
+                state.updateQuantity.status = false;
+                state.updateQuantity.message = 'Loading';
             })
 
             .addCase(fetchHandleIncrease.fulfilled, (state, action) => {
-                state.quantity.status = true;
-                state.quantity.message = 'Successfully';
-                state.quantity.response = action.payload;
+                const { productId, quantity } = action.payload;
+                const product = state.getProductCart.response.listProduct.find((item) => item._id === productId);
+                if (product) {
+                    product.quantity = quantity;
+                }
+                state.updateQuantity.status = true;
+                state.updateQuantity.message = 'Successfully';
+                state.updateQuantity.response = action.payload;
             })
 
             //fetchDeleteProduct
             .addCase(fetchDeleteProduct.pending, (state, action) => {
                 state.deleteProduct.message = 'Loading';
                 state.deleteProduct.status = false;
-                state.deleteProduct.response = {};
             })
             .addCase(fetchDeleteProduct.fulfilled, (state, action) => {
+                const { productId, status } = action.payload;
+                if (status) {
+                    const updatedListProduct = state.getProductCart.response.listProduct.filter(
+                        (item) => item._id !== productId,
+                    );
+                    state.getProductCart.response.listProduct = updatedListProduct;
+                }
                 state.deleteProduct.message = 'Successfully';
                 state.deleteProduct.status = true;
                 state.deleteProduct.response = action.payload;

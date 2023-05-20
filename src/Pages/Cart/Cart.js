@@ -8,27 +8,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchGetProductCart, cartSlice } from './cartSlice';
-
 import { totalProductIsChecked } from '~/storeRedux/selector';
+import { userIdSelector } from '~/storeRedux/selector';
 
+// components
 import ProductItem from './components/ProductItem';
 
 const cx = classNames.bind(styles);
 
 function Cart() {
     const dispatch = useDispatch();
-    const userId = useSelector((state) => state.header.infoUser.userId);
+    const userId = useSelector(userIdSelector);
     const resultFetchGetProductCart = useSelector((state) => state.cart.getProductCart);
     const listProductCart = useSelector((state) => state.cart.getProductCart.response.listProduct);
-    const isUpdateQuantity = useSelector((state) => state.cart.quantity.status);
-    const isDeleteProduct = useSelector((state) => state.cart.deleteProduct.status);
     const cart = useSelector((state) => state.cart);
 
     const totalProductSelected = useSelector(totalProductIsChecked);
 
     useEffect(() => {
         dispatch(fetchGetProductCart(userId));
-    }, [userId, isUpdateQuantity, isDeleteProduct, dispatch]);
+    }, [userId, dispatch]);
 
     const handleIsCheckboxAll = () => {
         dispatch(cartSlice.actions.toggleSelectAll());
@@ -65,9 +64,7 @@ function Cart() {
             <div className={cx('body-cart')}>
                 {resultFetchGetProductCart.status &&
                     resultFetchGetProductCart.response.status &&
-                    listProductCart.map((product) => (
-                        <ProductItem key={product._id} product={product} productId={product._id} />
-                    ))}
+                    listProductCart.map((product) => <ProductItem key={product._id} product={product} />)}
                 {listProductCart?.length === 0 && (
                     <div className={cx('cart-empty')}>
                         <h2>Không có sản phẩm nào được thêm vào giỏ hàng</h2>

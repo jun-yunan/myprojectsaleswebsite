@@ -6,14 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchHandleDecrease, fetchHandleIncrease, fetchDeleteProduct, cartSlice } from '../cartSlice';
+import { userIdSelector } from '~/storeRedux/selector';
 
 const cx = classNames.bind(styles);
 
-function ProductItem({ product, productId }) {
-    console.log(productId);
+function ProductItem({ product }) {
     const dispatch = useDispatch();
 
-    const userId = useSelector((state) => state.header.infoUser.userId);
+    const userId = useSelector(userIdSelector);
 
     const handleIncrease = (productId) => {
         dispatch(fetchHandleIncrease({ userId, productId }));

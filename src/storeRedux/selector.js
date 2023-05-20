@@ -2,6 +2,9 @@ import { createSelector } from '@reduxjs/toolkit';
 
 export const totalPriceSelector = (state) => state.cart.totalPrice.result;
 export const cartSelector = (state) => state.cart.getProductCart.response.listProduct;
+export const updateQuantitySelector = (state) => state.cart.updateQuantity.response;
+export const userIdSelector = (state) => state.header.infoUser.userId;
+// ------------
 
 export const totalProductIsChecked = createSelector(cartSelector, (cartProducts) => {
     const findProductIsChecked = cartProducts?.filter((product) => product.isChecked);
@@ -17,8 +20,3 @@ export const totalProductIsChecked = createSelector(cartSelector, (cartProducts)
 
     return formattedNumber;
 });
-
-export const selectProductById = createSelector(
-    [(state) => state.cart.getProductCart.response.listProduct, (_, productId) => productId],
-    (products, productId) => products.find((product) => product._id === productId),
-);
