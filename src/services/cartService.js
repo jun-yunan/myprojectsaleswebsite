@@ -57,3 +57,12 @@ export const totalPrice = async (data) => {
         console.error(error);
     }
 };
+
+export const searchProduct = async (searchValue) => {
+    try {
+        const response = await httpRequest.post('/carts/searchProduct', searchValue);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};

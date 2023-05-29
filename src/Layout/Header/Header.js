@@ -14,11 +14,13 @@ import 'tippy.js/dist/svg-arrow.css';
 
 // font icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faMagnifyingGlass, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 
 // component
 import styles from './Header.module.scss';
 import Button from '~/components/Button/Button';
+import SearchHeader from './SearchHeader/SearchHeader';
+// import Tippy from '@tippyjs/react/headless';
 
 const cx = classNames.bind(styles);
 
@@ -29,7 +31,7 @@ function Header() {
     // Selector
     const getLoginUser = useSelector((state) => state.header.getUser);
     const isUpdateInfoUser = useSelector((state) => state.profileUser.fetchUpdateUser.status);
-    const getAvatarUpload = useSelector((state) => state.header.avatar);
+    // const getAvatarUpload = useSelector((state) => state.header.avatar);
 
     // const getInfoUser = useSelector((state) => state.header.infoUser);
 
@@ -132,11 +134,14 @@ function Header() {
 
             {/* search */}
             <div className={cx('search')}>
-                <div className={cx('wrapper-search')}>
-                    <input className={cx('search-product')} type="text" placeholder="Tìm kiếm sản phẩm?..." />
-                    <FontAwesomeIcon className={cx('icon-search')} icon={faMagnifyingGlass} />
-                </div>
-                <Link to={'/cart'} className={cx('cart')}>
+                {/* <TippyHeadless offset={[0, 0]} placement="bottom" interactive render={PreviewResultSearch}>
+                    <div className={cx('wrapper-search')}>
+                        <input className={cx('search-product')} type="text" placeholder="Tìm kiếm sản phẩm?..." />
+                        <FontAwesomeIcon className={cx('icon-search')} icon={faMagnifyingGlass} />
+                    </div>
+                </TippyHeadless> */}
+                <SearchHeader />
+                <Link onClick={handleClick} to={'/cart'} className={cx('cart')}>
                     <FontAwesomeIcon icon={faCartShopping} className={cx('icon-cart')} />
                 </Link>
             </div>

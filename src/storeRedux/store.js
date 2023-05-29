@@ -4,6 +4,7 @@ import signInReducer from '~/Pages/UserAuthentication/components/SignIn/signInSl
 import headerReducer from '~/Layout/Header/headerSlice';
 import productDetailReducer from '~/Pages/ProductDetails/productDetailSlice';
 import cartReducer from '~/Pages/Cart/cartSlice';
+import searchHeaderReducer from '~/Layout/Header/SearchHeader/searchHeaderSlice';
 // import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 // import persistConfig from '~/persistConfig';
 // import rootReducer from './reducer';
@@ -24,6 +25,7 @@ export const store = configureStore({
         header: headerReducer,
         productDetail: productDetailReducer,
         cart: cartReducer,
+        searchHeader: searchHeaderReducer,
     },
 });
 

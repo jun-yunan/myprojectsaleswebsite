@@ -3,3 +3,4 @@
 // export { default as productService } from './productService';
 
 export * as cartService from './cartService';
+export * as searchService from './searchService';

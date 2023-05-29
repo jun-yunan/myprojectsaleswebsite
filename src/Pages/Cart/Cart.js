@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchGetProductCart, cartSlice } from './cartSlice';
-import { totalProductIsChecked } from '~/storeRedux/selector';
+import { quantityIsCheckbox, totalProductIsChecked } from '~/storeRedux/selector';
 import { userIdSelector } from '~/storeRedux/selector';
 
 // components
@@ -22,6 +22,8 @@ function Cart() {
     const resultFetchGetProductCart = useSelector((state) => state.cart.getProductCart);
     const listProductCart = useSelector((state) => state.cart.getProductCart.response.listProduct);
     const cart = useSelector((state) => state.cart);
+
+    const lengthIsCheckbox = useSelector(quantityIsCheckbox);
 
     const totalProductSelected = useSelector(totalProductIsChecked);
 
@@ -78,7 +80,7 @@ function Cart() {
                 </div>
                 <div className={cx('sum-price')}>
                     <p>
-                        Tổng thanh toán ( {listProductCart?.length} sản phẩm ): {totalProductSelected}
+                        Tổng thanh toán ( {lengthIsCheckbox} sản phẩm ): {totalProductSelected}
                         <FontAwesomeIcon icon={faDongSign} className={cx('icon')} />
                     </p>
                 </div>

@@ -4,7 +4,9 @@ export const totalPriceSelector = (state) => state.cart.totalPrice.result;
 export const cartSelector = (state) => state.cart.getProductCart.response.listProduct;
 export const updateQuantitySelector = (state) => state.cart.updateQuantity.response;
 export const userIdSelector = (state) => state.header.infoUser.userId;
-// ------------
+export const searchTextSelector = (state) => state.searchHeader.searchValue;
+export const searchResultSelector = (state) => state.searchHeader.searchResult?.result;
+export const historySearchSelector = (state) => state.searchHeader.historySearch;
 
 export const totalProductIsChecked = createSelector(cartSelector, (cartProducts) => {
     const findProductIsChecked = cartProducts?.filter((product) => product.isChecked);
@@ -19,4 +21,20 @@ export const totalProductIsChecked = createSelector(cartSelector, (cartProducts)
     const formattedNumber = total?.toLocaleString('en-US', { useGrouping: true }) || '';
 
     return formattedNumber;
+});
+
+export const quantityIsCheckbox = createSelector(cartSelector, (cartProducts) => {
+    const findProductIsChecked = cartProducts?.filter((product) => product.isChecked);
+
+    if (!findProductIsChecked) return;
+
+    return findProductIsChecked.length;
+});
+
+export const searchValueRemaining = createSelector(searchTextSelector, (searchValue) => {
+    return searchValue;
+});
+
+export const searchResultRemaining = createSelector(searchResultSelector, (searchResult) => {
+    return searchResult;
 });

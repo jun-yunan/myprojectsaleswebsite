@@ -7,10 +7,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchHandleDecrease, fetchHandleIncrease, fetchDeleteProduct, cartSlice } from '../cartSlice';
 import { userIdSelector } from '~/storeRedux/selector';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function ProductItem({ product }) {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const userId = useSelector(userIdSelector);
@@ -32,6 +34,11 @@ function ProductItem({ product }) {
     const handleIsCheckbox = async (productId) => {
         dispatch(cartSlice.actions.toggleCheckbox(productId));
     };
+
+    const handleClickImage = (productId) => {
+        navigate(`/product-details?id=${productId}`);
+    };
+
     return (
         <div className={cx('item')} key={product._id}>
             <div className={cx('chose-product')}>
@@ -44,7 +51,7 @@ function ProductItem({ product }) {
                 />
             </div>
             <div className={cx('product')}>
-                <img src={product.image} alt="" />
+                <img src={product.image} alt="" onClick={() => handleClickImage(product._id)} />
                 <p className={cx('text-product')}>{product.nameProduct}</p>
             </div>
             <div className={cx('price')}>
