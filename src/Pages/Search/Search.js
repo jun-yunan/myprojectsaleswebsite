@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { searchService } from '~/services';
+import { usersService } from '~/services';
 
 function Search() {
     const [result, setResult] = useState({});
+    const [fetchResult, setFetchResult] = useState(null);
     const data = {
         username: 'admin',
     };
@@ -15,6 +17,18 @@ function Search() {
         fetchApi();
     };
     console.log(result);
+
+    useEffect(() => {
+        const fetchApi = async () => {
+            const response = await usersService.getAllUser();
+            setFetchResult(response);
+            return response;
+        };
+        fetchApi();
+    }, []);
+
+    console.log(fetchResult);
+
     return (
         <div>
             <h2>Search</h2>

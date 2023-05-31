@@ -57,7 +57,7 @@ function Profile() {
 
     // set value formData
     useEffect(() => {
-        if (getUser.status && getUser.response.status) {
+        if (getUser?.status && getUser?.response?.status) {
             const { username, avatar, email, fullName, gender, date, numberPhone, address, _id } =
                 getUser.response.data;
             setFormData({
@@ -72,7 +72,7 @@ function Profile() {
                 _id,
             });
         }
-    }, [getUser.response.status, getUser.status]);
+    }, [getUser.response?.status, getUser?.status]);
 
     const handleChange = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });

@@ -14,7 +14,7 @@ export const fetchCheckLogin = createAsyncThunk('signInSlice/fetchCheckLogin', a
     // console.log('response: ', response);
 
     if (response.status) {
-        Cookies.set(response.cookie.nameCookie, response.cookie.valueCookie, { domain: 'localhost' });
+        Cookies.set(response.cookie.nameCookie, response.cookie.valueCookie);
         const cookie = Cookies.get(response.cookie.nameCookie);
         const decoded = jwt_decode(cookie);
         console.log('decoded: ', decoded);

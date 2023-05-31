@@ -58,8 +58,8 @@ function Header() {
         if (getLoginUser.status) {
             dispatch(
                 headerSlice.actions.getUserId({
-                    userId: getLoginUser.response.data._id,
-                    username: getLoginUser.response.data.username,
+                    userId: getLoginUser.response?.data?._id,
+                    username: getLoginUser.response?.data?.username,
                 }),
             );
         }
@@ -151,7 +151,7 @@ function Header() {
                 {currentLogin ? (
                     <TippyHeadless offset={[0, 0]} placement="bottom" interactive render={PreviewMenuOption}>
                         <div className={cx('wrapper-icon')}>
-                            {getLoginUser.status && getLoginUser.response.data.avatar ? (
+                            {getLoginUser?.status && getLoginUser?.response?.data?.avatar ? (
                                 <div className={cx('avatar')}>
                                     <img
                                         src={

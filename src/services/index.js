@@ -4,3 +4,4 @@
 
 export * as cartService from './cartService';
 export * as searchService from './searchService';
+export * as usersService from './usersService';

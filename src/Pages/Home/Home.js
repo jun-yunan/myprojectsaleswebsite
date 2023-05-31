@@ -17,7 +17,7 @@ function Home() {
 
     // call api
     useEffect(() => {
-        fetch('http://localhost:3001/api/getProductAll')
+        fetch('https://tech-genius-store.herokuapp.com/api/getProductAll')
             .then((res) => res.json())
             .then((data) => setCourses(data))
             .catch(() => console.log('error'));
@@ -41,19 +41,17 @@ function Home() {
 
             <div className={cx('product')}>
                 <div className={cx('wrapper-product')}>
-                    {courses &&
-                        courses.data &&
-                        courses.data.map((product, index) => (
-                            <PreviewProduct
-                                key={index}
-                                nameProduct={product.nameProduct}
-                                image={product.image}
-                                price={product.price}
-                                id={product._id}
-                            >
-                                <FontAwesomeIcon icon={faDongSign} />
-                            </PreviewProduct>
-                        ))}
+                    {courses?.data?.map((product, index) => (
+                        <PreviewProduct
+                            key={index}
+                            nameProduct={product.nameProduct}
+                            image={product.image}
+                            price={product.price}
+                            id={product._id}
+                        >
+                            <FontAwesomeIcon icon={faDongSign} />
+                        </PreviewProduct>
+                    ))}
                 </div>
             </div>
         </div>

@@ -2,8 +2,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const httpRequest = axios.create({
-    baseURL: 'http://localhost:3001/api/',
-    timeout: 1000,
+    baseURL: 'https://tech-genius-store.herokuapp.com/api',
+    timeout: 2000,
     headers: { 'X-Custom-Header': 'foobar' },
 });
 
