@@ -4,16 +4,18 @@ import Tippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/dist/svg-arrow.css';
 
+import Loading from '~/components/Loading/Loading';
+
 import styles from './SearchHeader.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faDongSign, faMagnifyingGlass, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark, faDongSign, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSearchProduct, searchHeaderSlice } from './searchHeaderSlice';
-import { searchResultSelector, searchResultRemaining, historySearchSelector } from '~/storeRedux/selector';
+import { searchResultRemaining, historySearchSelector } from '~/storeRedux/selector';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { animateScroll as scroll } from 'react-scroll';
 
@@ -24,10 +26,10 @@ const cx = classNames.bind(styles);
 function SearchHeader() {
     const dispatch = useDispatch();
     const searchResult = useSelector(searchResultRemaining);
-    const response = useSelector((state) => state.searchHeader.searchResult);
+    // const response = useSelector((state) => state.searchHeader.searchResult);
     const isLoading = useSelector((state) => state.searchHeader.isLoading);
     const historySearch = useSelector(historySearchSelector);
-    console.log('historySearch: ', historySearch);
+    // console.log('historySearch: ', historySearch);
 
     // console.log(response);
     const inputRef = useRef();
@@ -93,11 +95,9 @@ function SearchHeader() {
                                 </Link>
                             ))
                         ) : (
-                            <div>
+                            <div className={cx('loading')}>
                                 {isLoading ? (
-                                    <div>
-                                        <h2>Loading....</h2>
-                                    </div>
+                                    <Loading />
                                 ) : (
                                     <div>
                                         <h2>Không tìm thấy sản phẩm</h2>

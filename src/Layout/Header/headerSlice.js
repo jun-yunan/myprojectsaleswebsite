@@ -13,6 +13,7 @@ export const headerSlice = createSlice({
             status: false,
             message: 'idle',
             response: {},
+            isLoading: false,
         },
         avatar: '',
         infoUser: {
@@ -43,12 +44,13 @@ export const headerSlice = createSlice({
             .addCase(fetchGetUserLogin.pending, (state, action) => {
                 state.getUser.message = 'Loading';
                 state.getUser.status = false;
-                state.getUser.response = {};
+                state.getUser.isLoading = true;
             })
             .addCase(fetchGetUserLogin.fulfilled, (state, action) => {
                 state.getUser.message = 'Successfully';
                 state.getUser.status = true;
                 state.getUser.response = action.payload;
+                state.getUser.isLoading = false;
             });
     },
 });

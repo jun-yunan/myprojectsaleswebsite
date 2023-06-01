@@ -20,7 +20,6 @@ import { faCartShopping, faRightFromBracket, faUser } from '@fortawesome/free-so
 import styles from './Header.module.scss';
 import Button from '~/components/Button/Button';
 import SearchHeader from './SearchHeader/SearchHeader';
-// import Tippy from '@tippyjs/react/headless';
 
 const cx = classNames.bind(styles);
 
@@ -31,15 +30,7 @@ function Header() {
     // Selector
     const getLoginUser = useSelector((state) => state.header.getUser);
     const isUpdateInfoUser = useSelector((state) => state.profileUser.fetchUpdateUser.status);
-    // const getAvatarUpload = useSelector((state) => state.header.avatar);
-
-    // const getInfoUser = useSelector((state) => state.header.infoUser);
-
-    // getInfoUser.status && console.log('getInfoUser: ', getInfoUser);
-    // console.log(isUpdateInfoUser);
-
-    // console.log(getAvatarUpload);
-    // console.log(getLoginUser);
+    const isLoading = useSelector((state) => state.header.getUser.isLoading);
 
     // hook state
     const [currentLogin, setCurrentLogin] = useState(false);
@@ -53,7 +44,6 @@ function Header() {
         }
     }, [currentLogin, decode.username, dispatch, isUpdateInfoUser]);
 
-    // getLoginUser.status && console.log('getLoginUser: ', getLoginUser);
     useEffect(() => {
         if (getLoginUser.status) {
             dispatch(
@@ -125,7 +115,6 @@ function Header() {
             {/* logo */}
             <Link to="/" className={cx('logo')}>
                 <img src={process.env.PUBLIC_URL + 'logo1_prev_ui.png'} alt="" />
-                {/* <FontAwesomeIcon className={cx('icon-logo')} icon={faBagShopping} /> */}
                 <div className={cx('title')}>
                     <p className={cx('text-logo')}>Online Shop</p>
                     <p className={cx('sub-text')}>Every product delivered to you.</p>
@@ -134,30 +123,28 @@ function Header() {
 
             {/* search */}
             <div className={cx('search')}>
-                {/* <TippyHeadless offset={[0, 0]} placement="bottom" interactive render={PreviewResultSearch}>
-                    <div className={cx('wrapper-search')}>
-                        <input className={cx('search-product')} type="text" placeholder="Tìm kiếm sản phẩm?..." />
-                        <FontAwesomeIcon className={cx('icon-search')} icon={faMagnifyingGlass} />
-                    </div>
-                </TippyHeadless> */}
                 <SearchHeader />
-                <Link onClick={handleClick} to={'/cart'} className={cx('cart')}>
-                    <FontAwesomeIcon icon={faCartShopping} className={cx('icon-cart')} />
-                </Link>
             </div>
 
             {/* account */}
             <div className={cx('account')}>
+                <Link onClick={handleClick} to={'/cart'} className={cx('cart')}>
+                    <FontAwesomeIcon icon={faCartShopping} className={cx('icon-cart')} />
+                    {/* <p>Giỏ hàng</p> */}
+                </Link>
                 {currentLogin ? (
-                    <TippyHeadless offset={[0, 0]} placement="bottom" interactive render={PreviewMenuOption}>
+                    <TippyHeadless offset={[0, 15]} placement="bottom" interactive render={PreviewMenuOption}>
                         <div className={cx('wrapper-icon')}>
-                            {getLoginUser?.status && getLoginUser?.response?.data?.avatar ? (
+                            {isLoading ? (
+                                <div className={cx('loading-avatar')}>
+                                    <svg viewBox="25 25 50 50">
+                                        <circle r="20" cy="50" cx="50"></circle>
+                                    </svg>
+                                </div>
+                            ) : getLoginUser?.status && getLoginUser?.response?.data?.avatar ? (
                                 <div className={cx('avatar')}>
                                     <img
-                                        src={
-                                            (getLoginUser.status && getLoginUser.response.data.avatar) || ''
-                                            // (imageUpload && isUpdateInfoUser)
-                                        }
+                                        src={(getLoginUser.status && getLoginUser.response?.data?.avatar) || ''}
                                         alt=""
                                     />
                                 </div>
@@ -169,7 +156,6 @@ function Header() {
                     </TippyHeadless>
                 ) : (
                     <>
-                        {/* current login false */}
                         <Link
                             to={{ pathname: '/authentication', search: '?q=sign-up' }}
                             className={cx('link')}

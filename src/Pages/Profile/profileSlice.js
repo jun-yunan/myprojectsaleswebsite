@@ -15,7 +15,7 @@ export const fetchUpdateUser = createAsyncThunk('profileSlice/fetchUpdateUser', 
 export const profileSlice = createSlice({
     name: 'profile',
     initialState: {
-        fetchGetUser: { status: false, message: 'idle', response: {} },
+        fetchGetUser: { status: false, message: 'idle', response: {}, isLoading: false },
         fetchUpdateUser: { status: false, message: 'idle', response: {} },
         image: '',
     },
@@ -45,11 +45,13 @@ export const profileSlice = createSlice({
             .addCase(fetchUser.pending, (state) => {
                 state.fetchGetUser.message = 'Loading';
                 state.fetchGetUser.status = false;
+                state.fetchGetUser.isLoading = true;
             })
             .addCase(fetchUser.fulfilled, (state, action) => {
                 state.fetchGetUser.response = action.payload;
                 state.fetchGetUser.message = 'Fetch Get User Successfully!!!';
                 state.fetchGetUser.status = true;
+                state.fetchGetUser.isLoading = false;
             })
 
             // Update Info User

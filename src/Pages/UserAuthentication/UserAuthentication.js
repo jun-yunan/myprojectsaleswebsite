@@ -16,24 +16,12 @@ function Login() {
     const queryAuth = searchParams.get('q');
 
     const [isActive, setIsActive] = useState(false);
-    // const [users, setUsers] = useState([]);
 
-    console.log(queryAuth);
+    // console.log(queryAuth);
 
     const handleClick = () => {
         setIsActive(!isActive);
     };
-
-    // useEffect(() => {
-    //     const fetchApi = async () => {
-    //         const result = await usersService.getAllUser();
-    //         setUsers(result);
-    //     };
-
-    //     fetchApi();
-    // }, []);
-
-    // users ? console.log(users) : console.log('error');
 
     return (
         <div className={cx('wrapper')}>

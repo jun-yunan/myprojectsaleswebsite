@@ -3,12 +3,6 @@ import * as usersService from '~/services/usersService';
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
 
-const initialState = {
-    status: false,
-    message: 'idle',
-    data: {},
-};
-
 export const fetchCheckLogin = createAsyncThunk('signInSlice/fetchCheckLogin', async (formData) => {
     const response = await usersService.postSignInUser(formData);
     // console.log('response: ', response);
@@ -25,27 +19,32 @@ export const fetchCheckLogin = createAsyncThunk('signInSlice/fetchCheckLogin', a
 
 export const signInSlice = createSlice({
     name: 'checkLogin',
-    initialState,
+    initialState: {
+        status: false,
+        message: 'idle',
+        data: null,
+    },
     reducers: {
         resetInitialState: (state) => {
             state.status = false;
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchCheckLogin.pending, (state, action) => {
-            state.message = 'Loading';
-        });
-        builder.addCase(fetchCheckLogin.fulfilled, (state, action) => {
-            // console.log(action.payload);
-            state.message = 'Fetch Check Login Successfully!!!';
-            state.status = true;
-            state.data = action.payload;
-            // console.log('data: ', state.data);
-        });
-        builder.addCase(fetchCheckLogin.rejected, (state, action) => {
-            state.message = 'Fetch Check Login Fail!!!';
-            state.data = action.payload;
-        });
+        builder
+            .addCase(fetchCheckLogin.pending, (state) => {
+                state.status = false;
+                state.message = 'Loading';
+            })
+            .addCase(fetchCheckLogin.fulfilled, (state, action) => {
+                state.message = 'Fetch Check Login Successfully!!!';
+                state.status = true;
+                state.data = action.payload;
+            })
+            .addCase(fetchCheckLogin.rejected, (state, action) => {
+                state.message = 'Fetch Check Login Fail!!!';
+                state.data = action.payload;
+                state.status = false;
+            });
     },
 });
 

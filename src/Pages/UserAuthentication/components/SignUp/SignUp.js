@@ -4,20 +4,30 @@ import styles from './SignUp.module.scss';
 import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation, useNavigate } from 'react-router-dom';
-import * as usersService from '~/services/usersService';
+
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCreateAccount } from './signUpSlice';
 
 // Components
 import NextSignUp from './NextSignUp/NextSignUp';
+import Notify from '~/components/Notify/Notify';
 
 const cx = classNames.bind(styles);
 
 function SignUp({ children }) {
+    const dispatch = useDispatch();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const queryAuth = searchParams.get('q');
 
-    const [formData, setFormData] = useState({});
+    const createAccount = useSelector((state) => state.signUp);
+    // const isCreateAccount = useSelector((state) => state.signUp.data?.status);
 
+    console.log(createAccount);
+
+    const [formData, setFormData] = useState({});
+    const [showNotify, setShowNotify] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
@@ -27,24 +37,23 @@ function SignUp({ children }) {
         const data = Object.fromEntries(formData.entries());
 
         setFormData(data);
-        const fetchApi = async () => {
-            const result = await usersService.postSignUpUser(data);
-            console.log(result);
-            result && result.status === true
-                ? alert('Đăng ký tài khoản thành công!')
-                : alert('Đăng ký tài khoản thất bại!');
-            navigate('/authentication?q=sign-in');
-        };
-        fetchApi();
-    };
+        dispatch(fetchCreateAccount(data));
+        setShowNotify(true);
 
+        setTimeout(() => {
+            setShowNotify(false);
+            navigate('/authentication?q=sign-in');
+        }, 2500);
+    };
     return (
         <div className={cx('wrapper')}>
             {queryAuth === 'continue-sign-up' ? (
                 <NextSignUp data={formData}>Tiếp Tục Đăng Ký</NextSignUp>
             ) : (
-                // <form method="POST" className={cx('form-sign')} action="http://localhost:3001/api/users/checkLogin">
                 <form className={cx('form-sign')} onSubmit={handleSubmit}>
+                    {showNotify && (
+                        <Notify isError={createAccount.data?.error || undefined}>{createAccount.data?.message}</Notify>
+                    )}
                     <h2 className={cx('title')}>{children}</h2>
                     <div className={cx('username', 'container')}>
                         <FontAwesomeIcon className={cx('icon')} icon={faUser} />

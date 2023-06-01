@@ -3,15 +3,7 @@ import { useLocation } from 'react-router-dom';
 import * as productServices from '~/services/productService';
 import classNames from 'classnames/bind';
 import styles from './ProductDetails.module.scss';
-import {
-    faCartPlus,
-    faCircleCheck,
-    faDongSign,
-    faHeart,
-    faMinus,
-    faPlus,
-    faStar,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCartPlus, faDongSign, faHeart, faMinus, faPlus, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // redux
@@ -20,6 +12,7 @@ import { fetchAddToCart, productDetailSlice } from './productDetailSlice';
 
 // components
 import Button from '~/components/Button/Button';
+import Notify from '~/components/Notify/Notify';
 
 const cx = classNames.bind(styles);
 
@@ -60,7 +53,7 @@ function ProductDetails() {
         setTimeout(() => {
             setShowNotification(false);
             dispatch(productDetailSlice.actions.resetQuantity());
-        }, 2300);
+        }, 3000);
     };
 
     console.log('responseFetchAddToCart: ', responseFetchAddToCart);
@@ -91,12 +84,7 @@ function ProductDetails() {
         <div className={cx('wrapper')}>
             {product && product.data && (
                 <div className={cx('container')}>
-                    {showNotification && (
-                        <div className={cx('notification')}>
-                            <FontAwesomeIcon icon={faCircleCheck} className={cx('icon')} />
-                            <p>Thêm vào giỏ hàng thành công!!!</p>
-                        </div>
-                    )}
+                    {showNotification && <Notify>Thêm vào giỏ hàng thành công!!!</Notify>}
                     <div className={cx('product')}>
                         <div className={cx('image')}>
                             <p className={cx('heart')}>

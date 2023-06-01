@@ -9,7 +9,8 @@ export const product = async (typeProduct) => {
         });
         return res;
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        throw error;
     }
 };
 
@@ -23,5 +24,35 @@ export const getProductById = async (idProduct) => {
         return res;
     } catch (error) {
         console.error(error);
+        throw error;
     }
 };
+
+export const getAllProducts = async () => {
+    try {
+        const response = await httpRequest.get('/products/getAll');
+        return response;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+class ProductService {
+    async getProducts(limit) {
+        try {
+            const response = await httpRequest.get('/products', {
+                params: {
+                    limit,
+                },
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+}
+
+const productService = new ProductService();
+export default productService;

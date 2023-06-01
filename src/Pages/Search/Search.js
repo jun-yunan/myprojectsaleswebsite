@@ -1,32 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { searchService } from '~/services';
-import { usersService } from '~/services';
 
 function Search() {
-    const [result, setResult] = useState({});
     const [fetchResult, setFetchResult] = useState(null);
-    const data = {
-        username: 'admin',
-    };
+
     const handleClick = () => {
         const fetchApi = async () => {
-            const response = await searchService.result(data);
-            setResult(response);
-            return response;
-        };
-        fetchApi();
-    };
-    console.log(result);
-
-    useEffect(() => {
-        const fetchApi = async () => {
-            const response = await usersService.getAllUser();
+            const response = await searchService.result();
             setFetchResult(response);
             return response;
         };
         fetchApi();
-    }, []);
-
+    };
     console.log(fetchResult);
 
     return (

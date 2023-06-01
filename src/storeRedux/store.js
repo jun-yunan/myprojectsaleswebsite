@@ -5,6 +5,8 @@ import headerReducer from '~/Layout/Header/headerSlice';
 import productDetailReducer from '~/Pages/ProductDetails/productDetailSlice';
 import cartReducer from '~/Pages/Cart/cartSlice';
 import searchHeaderReducer from '~/Layout/Header/SearchHeader/searchHeaderSlice';
+import homeReducer from '~/Pages/Home/homeSlice';
+import signUpReducer from '~/Pages/UserAuthentication/components/SignUp/signUpSlice';
 // import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 // import persistConfig from '~/persistConfig';
 // import rootReducer from './reducer';
@@ -26,6 +28,8 @@ export const store = configureStore({
         productDetail: productDetailReducer,
         cart: cartReducer,
         searchHeader: searchHeaderReducer,
+        home: homeReducer,
+        signUp: signUpReducer,
     },
 });
 

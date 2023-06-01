@@ -1,31 +1,29 @@
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { faDongSign } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // components
 import PreviewProduct from '~/components/PreviewProduct/PreviewProduct';
-// import Banner from '~/components/Banner/Banner';
 import SimpleSlider from '~/components/SimpleSlider/SimpleSlider';
 import Category from '~/components/Category/Category';
+
+// redux
+import { fetchGetAllProduct } from './homeSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllProductsSelector } from '~/storeRedux/selector';
 
 const cx = classNames.bind(styles);
 
 function Home() {
-    const [courses, setCourses] = useState({});
+    const dispatch = useDispatch();
+    const getAllProducts = useSelector(getAllProductsSelector);
+    const isLoading = useSelector((state) => state.home.getAllProducts.isLoading);
 
-    // call api
     useEffect(() => {
-        fetch('https://tech-genius-store.herokuapp.com/api/getProductAll')
-            .then((res) => res.json())
-            .then((data) => setCourses(data))
-            .catch(() => console.log('error'));
+        dispatch(fetchGetAllProduct());
     }, []);
-
-    if (courses && courses.data) {
-        console.log(courses);
-    }
 
     return (
         <div className={cx('wrapper')}>
@@ -40,19 +38,25 @@ function Home() {
             </div>
 
             <div className={cx('product')}>
-                <div className={cx('wrapper-product')}>
-                    {courses?.data?.map((product, index) => (
-                        <PreviewProduct
-                            key={index}
-                            nameProduct={product.nameProduct}
-                            image={product.image}
-                            price={product.price}
-                            id={product._id}
-                        >
-                            <FontAwesomeIcon icon={faDongSign} />
-                        </PreviewProduct>
-                    ))}
-                </div>
+                {isLoading ? (
+                    <div>
+                        <h1>Loading......</h1>
+                    </div>
+                ) : (
+                    <div className={cx('wrapper-product')}>
+                        {getAllProducts?.data?.products?.map((product, index) => (
+                            <PreviewProduct
+                                key={index}
+                                nameProduct={product.nameProduct}
+                                image={product.image}
+                                price={product.price}
+                                id={product._id}
+                            >
+                                <FontAwesomeIcon icon={faDongSign} />
+                            </PreviewProduct>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );

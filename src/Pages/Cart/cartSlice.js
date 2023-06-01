@@ -28,6 +28,7 @@ export const cartSlice = createSlice({
             status: false,
             message: 'idle',
             response: {},
+            isLoading: false,
         },
         updateQuantity: {
             status: false,
@@ -62,12 +63,13 @@ export const cartSlice = createSlice({
             .addCase(fetchGetProductCart.pending, (state, action) => {
                 state.getProductCart.message = 'Loading';
                 state.getProductCart.status = false;
-                state.getProductCart.response = {};
+                state.getProductCart.isLoading = true;
             })
             .addCase(fetchGetProductCart.fulfilled, (state, action) => {
                 state.getProductCart.message = 'Successfully';
                 state.getProductCart.status = true;
                 state.getProductCart.response = action.payload;
+                state.getProductCart.isLoading = false;
             })
 
             //fetchHandleDecrease

@@ -13,6 +13,7 @@ import { userIdSelector } from '~/storeRedux/selector';
 
 // components
 import ProductItem from './components/ProductItem';
+import Loading from '~/components/Loading/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -22,6 +23,7 @@ function Cart() {
     const resultFetchGetProductCart = useSelector((state) => state.cart.getProductCart);
     const listProductCart = useSelector((state) => state.cart.getProductCart.response.listProduct);
     const cart = useSelector((state) => state.cart);
+    const isLoading = useSelector((state) => state.cart.getProductCart.isLoading);
 
     const lengthIsCheckbox = useSelector(quantityIsCheckbox);
 
@@ -64,9 +66,13 @@ function Cart() {
                 </div>
             </div>
             <div className={cx('body-cart')}>
-                {resultFetchGetProductCart.status &&
-                    resultFetchGetProductCart.response.status &&
-                    listProductCart.map((product) => <ProductItem key={product._id} product={product} />)}
+                {isLoading ? (
+                    <Loading />
+                ) : (
+                    resultFetchGetProductCart?.response?.listProduct?.map((product) => (
+                        <ProductItem key={product._id} product={product} />
+                    ))
+                )}
                 {listProductCart?.length === 0 && (
                     <div className={cx('cart-empty')}>
                         <h2>Không có sản phẩm nào được thêm vào giỏ hàng</h2>

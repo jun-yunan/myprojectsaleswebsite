@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react';
 import { fetchCheckLogin } from './signInSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
+// mui
+// import { Alert, AlertTitle, Button } from '@mui/material';
+import Notify from '~/components/Notify/Notify';
+
 // FONT ICON
 import { faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,11 +23,15 @@ function SignIn({ children }) {
     const dispatch = useDispatch();
 
     const fetchCheckLoginResult = useSelector((state) => state.signIn);
+    // console.log(fetchCheckLoginResult);
+
+    const isLogin = useSelector((state) => state.signIn.data?.status);
 
     const searchParams = new URLSearchParams(location.search);
     const queryAuth = searchParams.get('q');
-    console.log(queryAuth);
+    // console.log(queryAuth);
 
+    const [showNotify, setShowNotify] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -33,25 +41,40 @@ function SignIn({ children }) {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
 
-    console.log(formData);
+    // console.log(formData);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         if (!formData) {
-            console.log('Không có dữ liệu');
+            alert('Không có dữ liệu');
         }
         dispatch(fetchCheckLogin(formData));
     };
 
     useEffect(() => {
         if (fetchCheckLoginResult.status) {
-            fetchCheckLoginResult.data.status ? navigate('/') : alert(fetchCheckLoginResult.data.message);
+            if (fetchCheckLoginResult?.data?.status) {
+                navigate('/');
+            } else {
+                // alert(fetchCheckLoginResult?.data?.message);
+                setShowNotify(true);
+
+                setTimeout(() => {
+                    setShowNotify(false);
+                }, 2500);
+            }
         }
-    }, [fetchCheckLoginResult.data.message, fetchCheckLoginResult.data.status, fetchCheckLoginResult.status, navigate]);
-    // console.log('fetchCheckLoginResult: ', fetchCheckLoginResult);
+    }, [fetchCheckLoginResult.data?.status, fetchCheckLoginResult.status, navigate]);
 
     return (
         <div className={cx('wrapper')}>
+            {showNotify && (
+                <div>
+                    <Notify checkLogin isError={!isLogin || undefined}>
+                        {fetchCheckLoginResult?.data?.message || 'Tài khoản hoặc mật khẩu không hợp lệ!!!'}
+                    </Notify>
+                </div>
+            )}
             <form className={cx('form-sign')} onSubmit={handleSubmit}>
                 <h2 className={cx('title')}>{children}</h2>
                 <div className={cx('username')}>

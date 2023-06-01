@@ -7,6 +7,7 @@ export const userIdSelector = (state) => state.header.infoUser.userId;
 export const searchTextSelector = (state) => state.searchHeader.searchValue;
 export const searchResultSelector = (state) => state.searchHeader.searchResult?.result;
 export const historySearchSelector = (state) => state.searchHeader.historySearch;
+export const getAllProductsSelector = (state) => state.home.getAllProducts;
 
 export const totalProductIsChecked = createSelector(cartSelector, (cartProducts) => {
     const findProductIsChecked = cartProducts?.filter((product) => product.isChecked);
