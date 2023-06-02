@@ -13,6 +13,7 @@ import Category from '~/components/Category/Category';
 import { fetchGetAllProduct } from './homeSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProductsSelector } from '~/storeRedux/selector';
+import Loading from '~/components/Loading/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -39,9 +40,7 @@ function Home() {
 
             <div className={cx('product')}>
                 {isLoading ? (
-                    <div>
-                        <h1>Loading......</h1>
-                    </div>
+                    <Loading />
                 ) : (
                     <div className={cx('wrapper-product')}>
                         {getAllProducts?.data?.products?.map((product, index) => (

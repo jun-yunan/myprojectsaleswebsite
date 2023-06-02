@@ -11,27 +11,38 @@ import PreviewProduct from '~/components/PreviewProduct/PreviewProduct';
 import SimpleSlider from '~/components/SimpleSlider/SimpleSlider';
 import Category from '~/components/Category/Category';
 
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchGetProductsByType } from './productSlice';
+import Loading from '~/components/Loading/Loading';
+
 const cx = classNames.bind(styles);
 
 function Products() {
+    const dispatch = useDispatch();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const queryTypeProduct = searchParams.get('type');
 
+    const productsByType = useSelector((state) => state.product.data);
+    const isLoading = useSelector((state) => state.product.isLoading);
+    // console.log(isLoading);
+    // console.log(productsByType);
+
     const [products, setProducts] = useState([]);
 
-    useEffect(() => {
-        const fetchApi = async () => {
-            const result = await productServices.product(queryTypeProduct);
-            setProducts(result);
-            // console.log(result);
-        };
-        fetchApi();
-    }, [queryTypeProduct]);
+    // useEffect(() => {
+    //     const fetchApi = async () => {
+    //         const result = await productServices.product(queryTypeProduct);
+    //         setProducts(result);
+    //         // console.log(result);
+    //     };
+    //     fetchApi();
+    // }, [queryTypeProduct]);
 
-    // if (products && products.data) {
-    //     console.log(products.data);
-    // }
+    useEffect(() => {
+        dispatch(fetchGetProductsByType(queryTypeProduct));
+    }, [dispatch, queryTypeProduct]);
 
     return (
         <div className={cx('wrapper')}>
@@ -42,10 +53,12 @@ function Products() {
                 <Category />
             </div>
             <div className={cx('ui-products')}>
-                {products &&
-                    products.data &&
-                    products.data &&
-                    products.data.map((product, index) => (
+                {isLoading ? (
+                    <div className={cx('loading')}>
+                        <Loading />
+                    </div>
+                ) : (
+                    productsByType?.products?.map((product, index) => (
                         <PreviewProduct
                             key={index}
                             nameProduct={product.nameProduct}
@@ -55,7 +68,8 @@ function Products() {
                         >
                             <FontAwesomeIcon icon={faDongSign} />
                         </PreviewProduct>
-                    ))}
+                    ))
+                )}
             </div>
         </div>
     );

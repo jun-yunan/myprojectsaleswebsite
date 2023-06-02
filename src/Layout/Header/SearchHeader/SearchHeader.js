@@ -96,13 +96,7 @@ function SearchHeader() {
                             ))
                         ) : (
                             <div className={cx('loading')}>
-                                {isLoading ? (
-                                    <Loading />
-                                ) : (
-                                    <div>
-                                        <h2>Không tìm thấy sản phẩm</h2>
-                                    </div>
-                                )}
+                                {isLoading ? <Loading /> : <h2>Không tìm thấy sản phẩm</h2>}
                             </div>
                         )}
                     </div>

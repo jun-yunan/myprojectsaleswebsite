@@ -1,4 +1,5 @@
 .wrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,4 +16,11 @@
     align-items: center;
     justify-content: center;
     // background-color: aqua;
+}
+
+.loading {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    // background-color: red;
 }

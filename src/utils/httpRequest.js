@@ -2,19 +2,16 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const httpRequest = axios.create({
-    baseURL: process.env.REACT_APP_API_URL_LOCAL,
+    // baseURL: process.env.REACT_APP_API_URL_LOCAL,
+    baseURL: process.env.REACT_APP_API_URL,
     // timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
     },
 });
 
-// const token = Cookies.get('token');
-// httpRequest.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
 httpRequest.interceptors.request.use(
     (config) => {
-        // Kiểm tra và thêm Authorization header vào các request
         const token = Cookies.get('token');
         config.headers['Authorization'] = `Bearer ${token}`;
         return config;

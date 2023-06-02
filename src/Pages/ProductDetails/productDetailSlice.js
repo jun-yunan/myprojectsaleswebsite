@@ -1,8 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { cartService } from '~/services';
+import { cartService, productService } from '~/services';
 
 export const fetchAddToCart = createAsyncThunk('productDetail/fetchAddToCart', async (info) => {
     const response = await cartService.addToCart(info);
+    return response;
+});
+
+export const fetchGetProductById = createAsyncThunk('productDetail/fetchGetProductById', async (productId) => {
+    const response = await productService.getProductById(productId);
     return response;
 });
 
@@ -15,6 +20,12 @@ export const productDetailSlice = createSlice({
             response: {},
         },
         quantity: 1,
+        getProductById: {
+            isLoading: false,
+            status: false,
+            message: 'idle',
+            data: null,
+        },
     },
     reducers: {
         decrease: (state) => {
@@ -38,6 +49,18 @@ export const productDetailSlice = createSlice({
                 state.addToCart.response = action.payload;
                 state.addToCart.message = 'Successfully';
                 state.addToCart.status = true;
+            })
+            .addCase(fetchGetProductById.pending, (state, action) => {
+                state.getProductById.isLoading = true;
+                state.getProductById.message = 'Loading';
+                state.getProductById.status = false;
+                // state.getProductById.data = null;
+            })
+            .addCase(fetchGetProductById.fulfilled, (state, action) => {
+                state.getProductById.isLoading = false;
+                state.getProductById.message = 'idle';
+                state.getProductById.status = true;
+                state.getProductById.data = action.payload;
             });
     },
 });
