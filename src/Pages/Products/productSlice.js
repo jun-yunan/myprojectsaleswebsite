@@ -21,7 +21,6 @@ export const productSlice = createSlice({
                 state.isLoading = true;
                 state.message = 'Loading';
                 state.status = false;
-                state.data = null;
             })
             .addCase(fetchGetProductsByType.fulfilled, (state, action) => {
                 state.isLoading = false;
